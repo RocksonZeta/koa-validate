@@ -5,11 +5,10 @@ validate koa request params and format request params
 
 [![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate)
 
-##installcation
+##installation
 ```
 $ npm install koa-validate
 ```
-
 
 ## basic usage:
 ```javascript
