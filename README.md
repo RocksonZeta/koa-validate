@@ -17,11 +17,12 @@ $ npm install koa-validate
 	app.use(require('koa-body')());
 	app.use(require('koa-validate')());
 	app.use(require('koa-router')(app));
-	app.post('/signin',function*(){
+	app.post('/signup',function*(){
 		this.checkBody('name').optional().len(3,20);
 		this.checkBody('email').isEmail();
 		this.checkBody('password').notEmpty().len(3,20);
 		this.checkBody('nick').optional().empty().len(3,20);
+		this.checkBody('age').toInt();
 		if(this.errors){
 			return this.body = this.errors;
 		}

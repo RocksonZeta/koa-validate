@@ -21,15 +21,19 @@ describe('koa-validate' , function(){
 			this.checkBody('email').isEmail();
 			this.checkBody('password').notEmpty().len(3,20);
 			this.checkBody('nick').optional().empty().len(3,20);
+			this.checkBody('age').toInt();
 			if(this.errors){
 				return this.body = this.errors;
+			}
+			if(8 !== this.request.body.age){
+					this.body= 'failed';
 			}
 			this.body= 'ok';
 		});
 		var req = request(app.listen());
 
 		req.post('/signin')
-		.send({name:"jim",email:"jim@gmail.com",password:"tom",nick:"0"})
+		.send({name:"jim",email:"jim@gmail.com",password:"tom",nick:"jerry", age:"18"})
 		.expect(200)
 		.expect('ok' ,done);
 		
