@@ -3,8 +3,7 @@ koa-validate
 
 validate koa request params and format request params 
 
-[![build status][travis-image]][travis-url]
-[![Test coverage][coveralls-image]][coveralls-url]
+[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate)
 
 ##installcation
 ```
