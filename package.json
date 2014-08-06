@@ -18,6 +18,7 @@
     "format",
     "middleware"
   ],
+  "license": "MIT",
   "dependencies": {
     "debug": "*",
     "validator": "*"
