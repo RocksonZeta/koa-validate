@@ -1,39 +1,37 @@
 {
-	"name": "koa-validate",
-	"version": "0.0.1",
-	"description": "a koa params validate middleware.",
-	"main": "lib/validate.js",
-	"scripts": {
-		"test": "mocha --harmony test/"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/RocksonZeta/koa-validate"
-	},
-	"keywords": [
-		"web",
-		"koa",
-		"validate",
-		"validator",
-		"format",
-		"middleware"
-	],
-	"dependencies": {
-		"debug": "*",
-		"validator": "*"
-		
-	},
-	"devDependencies": {
-		"koa": "*",
-    	"koa-router": "*",
-    	"koa-body": "*",
-		"should": "^3.1.0",
-		"mocha": "^1.17.0",
-		"supertest": "~0.13.0",
-		"istanbul-harmony": "~0.2.9",
-		"make-lint": "^1.0.1"
-	},
-	"engines": {
-		"node": ">= 0.11.9"
-	}
+  "name": "koa-validate",
+  "version": "0.0.1",
+  "description": "a koa params validate middleware.",
+  "main": "lib/validate.js",
+  "scripts": {
+    "test": "mocha --require should --harmony test/ --bail"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RocksonZeta/koa-validate"
+  },
+  "keywords": [
+    "web",
+    "koa",
+    "validate",
+    "validator",
+    "format",
+    "middleware"
+  ],
+  "dependencies": {
+    "debug": "*",
+    "validator": "*"
+  },
+  "devDependencies": {
+    "koa": "*",
+    "koa-router": "*",
+    "koa-body": "*",
+    "should": "*",
+    "mocha": "*",
+    "supertest": "*",
+    "istanbul-harmony": "*"
+  },
+  "engines": {
+    "node": ">= 0.11.9"
+  }
 }
