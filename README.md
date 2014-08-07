@@ -1,7 +1,9 @@
 koa-validate
 ============
 
-[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate) [![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png)](https://coveralls.io/r/RocksonZeta/koa-validate)
+[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate)
+[![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png)](https://coveralls.io/r/RocksonZeta/koa-validate)
+![dependencies](https://david-dm.org/RocksonZeta/koa-validate.png)
 
 validate koa request params and format request params 
 
