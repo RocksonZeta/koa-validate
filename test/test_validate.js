@@ -25,6 +25,12 @@ describe('koa-validate' , function(){
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
 			this.checkBody('neq').neq("eq");
+			this.checkBody('number4').gt(3);
+			this.checkBody('number4').lt(5);
+			this.checkBody('number4').ge(4);
+			this.checkBody('number4').le(4);
+			this.checkBody('number4').ge(3);
+			this.checkBody('number4').le(5);
 			this.checkBody('contains').contains("tain");
 			this.checkBody('notContains').notContains(" ");
 			this.checkBody('email').isEmail();
@@ -82,6 +88,7 @@ describe('koa-validate' , function(){
 			in:1,
 			eq:"eq",
 			neq:'neq',
+			number4:'4',
 			contains:"contains" , 
 			notContains:"notContains",
 			url:"http://www.google.com",
@@ -128,6 +135,10 @@ describe('koa-validate' , function(){
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
 			this.checkBody('neq').neq("eq");
+			this.checkBody('number4').gt(5);
+			this.checkBody('number4').lt(3);
+			this.checkBody('number4').ge(5);
+			this.checkBody('number4').le(3);
 			this.checkBody('contains').contains("tain");
 			this.checkBody('notContains').notContains(" ");
 			this.checkBody('email').isEmail();
@@ -162,7 +173,7 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			if(this.errors.length >= 41){
+			if(this.errors.length >= 45){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -183,6 +194,7 @@ describe('koa-validate' , function(){
 			in:'fd',
 			eq:"neq",
 			neq:'eq',
+			number4:'4',
 			contains:"hello" , 
 			notContains:"h f",
 			url:"google",
