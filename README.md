@@ -68,12 +68,12 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 
 ## Validator Api
-### access validator status
+### Access validator status:
 
 - **addError([tip])** - 
 - **hasError([tip])** - 
 
-### Validators
+### Validators:
 
 - **optional()** - the param may not in the params.
 - **notEmpty([tip])** - 
@@ -123,7 +123,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **isVariableWidth([tip])** - 
 - **isSurrogatePair([tip])** - 
 
-### Sanitizers
+### Sanitizers:
 
 - **default(value)** - 
 - **toDate()** - 
@@ -142,7 +142,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **whitelist(value)** - 
 - **blacklist(value)** - 
 
-## how to extends validate:
+## How to extends validate:
 
 ```
 var Validator = require('koa-validate').Validator;
