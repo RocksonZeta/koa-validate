@@ -78,7 +78,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **notEmpty([tip])** - check whether the param is no empty.
 - **empty([tip])** - the params can be a empty string
 - **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
-- **isInt([tip])** - 
+- **isInt([tip])** - check whether the param is integer.
 - **isFloat([tip])** - 
 - **isLength(min,[max],[tip])** - check the param length.
 - **len(min,[max],[tip])** - the abbreviation of isLength.
