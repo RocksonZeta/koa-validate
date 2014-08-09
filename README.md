@@ -75,7 +75,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 ### Validators:
 
 - **optional()** - the param may not in the params.
-- **notEmpty([tip])** - 
+- **notEmpty([tip])** - check whether the param is no empty.
 - **empty([tip])** - the params can be a empty string
 - **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
 - **isInt([tip])** - 
