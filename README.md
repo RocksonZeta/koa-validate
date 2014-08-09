@@ -143,7 +143,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 ## How to extends validate:
 
-```
+```javascript
 var Validator = require('koa-validate').Validator;
 // to do what you want to.
 ```
