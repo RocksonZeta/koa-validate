@@ -53,6 +53,7 @@ describe('koa-validate' , function(){
 			this.checkBody('byteLenght').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
 			this.checkBody('date').isDate();
+			this.checkBody('time').isTime();
 			this.checkBody('after').isAfter(new Date("2014-08-06"));
 			this.checkBody('before').isBefore(new Date("2014-08-08"));
 			this.checkBody('in').isIn();
@@ -89,7 +90,7 @@ describe('koa-validate' , function(){
 			eq:"eq",
 			neq:'neq',
 			number4:'4',
-			contains:"contains" , 
+			contains:"contains",
 			notContains:"notContains",
 			url:"http://www.google.com",
 			ip:'192.168.1.1',
@@ -108,6 +109,7 @@ describe('koa-validate' , function(){
 			n:"",
 			byteLenght:"你好",
 			uuid:"c8162b90-fdda-4803-843b-ed5851480c86",
+			time:"13:12:00",
 			date:"2014-08-07",
 			after:"2014-08-07",
 			before:"2014-08-07",
@@ -129,6 +131,8 @@ describe('koa-validate' , function(){
 		var app = create_app();
 		app.post('/validate',function*(){
 			this.checkBody('name').notEmpty().len(3,20);
+			this.checkBody('notEmpty').notEmpty();
+			this.checkBody('notEmpty').len(2,3);
 			this.checkBody('match').match(/^abc$/i);
 			this.checkBody('integer').isInt(/^abc$/i);
 			this.checkBody('float_').isFloat();
@@ -160,6 +164,7 @@ describe('koa-validate' , function(){
 			this.checkBody('len').isLength(3,4);
 			this.checkBody('byteLenght').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
+			this.checkBody('time').isTime();
 			this.checkBody('date').isDate();
 			this.checkBody('after').isAfter(new Date("2014-08-06"));
 			this.checkBody('before').isBefore(new Date("2014-08-02"));
@@ -173,7 +178,7 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			if(this.errors.length >= 45){
+			if(this.errors.length === 48){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -201,7 +206,7 @@ describe('koa-validate' , function(){
 			ip:'192.168.',
 			alpha:"321",
 			numeric:"fada",
-			an:"__",
+			an:"__a",
 			base64:"fdsaf",
 			hex:"hgsr",
 			color1:"#fffff",
@@ -215,6 +220,7 @@ describe('koa-validate' , function(){
 			byteLenght:"你",
 			uuid:"c8162b90-fdda-4803-843bed5851480c86",
 			date:"2014-0807",
+			time:"24:00:00",
 			after:"2014-08-05",
 			before:"2014-08-02",
 			credit:"4063651340421805332",
@@ -264,10 +270,11 @@ describe('koa-validate' , function(){
 		.get('/123')
 		.expect(200)
 		.expect('ok' , done);
-	});	
+	});
 	it('there sanitizers should be to okay' , function(done){
 		var app = create_app();
 		app.post('/sanitizers',function*(){
+			this.checkBody('default').default('default');
 			this.checkBody('int_').toInt();
 			this.checkBody('float_').toFloat();
 			this.checkBody('bool').toBoolean();
@@ -277,12 +284,19 @@ describe('koa-validate' , function(){
 			this.checkBody('rtrim').rtrim();
 			this.checkBody('up').toUp();
 			this.checkBody('low').toLow();
+			this.checkBody('escape').escape();
+			this.checkBody('stripLow').stripLow();
+			this.checkBody('whitelist').whitelist('ll');
+			this.checkBody('blacklist').blacklist('ll');
 			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
 				 return;
 			}
 			var body = this.request.body;
+			if('default' != body.default){
+				this.throw(500);
+			}
 			if(20 !== body.int_ ){
 				this.throw(500);
 			}
@@ -311,6 +325,18 @@ describe('koa-validate' , function(){
 			if('jim'!=body.low){
 				this.throw(500);
 			}
+			if('&lt;div&gt;'!=body.escape){
+				this.throw(500);
+			}
+			if('abc'!=body.stripLow){
+				this.throw(500);
+			}
+			if('ll'!=body.whitelist){
+				this.throw(500);
+			}
+			if('heo'!=body.blacklist){
+				this.throw(500);
+			}
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -325,6 +351,11 @@ describe('koa-validate' , function(){
 			rtrim:' jim ',
 			up:'jim',
 			low:'Jim',
+			escape:'<div>',
+			stripLow:'abc\r',
+			whitelist:'hello',
+			blacklist:'hello',
+
 		}).expect(200)
 		.expect('ok' , done);
 	});
