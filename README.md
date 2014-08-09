@@ -58,7 +58,6 @@ app.get('/user/:id', function * () {
 app.listen(3000);
 ```
 
-## Api:
 checkBody,checkQuery,checkParams will return a Validator instance.
 when use `app.use(require('koa-validate')())` ,the request context will bind the method:
 
