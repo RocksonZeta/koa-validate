@@ -23,7 +23,7 @@ app.use(require('koa-body')());
 app.use(require('koa-validate')());
 app.use(require('koa-router')(app));
 app.post('/signup', function * () {
-	//optional() means this param may be in the params.
+	//optional() means this param may not in the params.
 	this.checkBody('name').optional().len(2, 20,"are you kidding me?");
 	this.checkBody('email').isEmail("your enter a bad email.");
 	this.checkBody('password').notEmpty().len(3, 20);
@@ -58,4 +58,93 @@ app.get('/user/:id', function * () {
 app.listen(3000);
 ```
 
-## how to extends validate
+## Api:
+checkBody,checkQuery,checkParams will return a Validator instance.
+when use `app.use(require('koa-validate')())` ,the request context will bind the method:
+
+- **checkBody(filedName)** - check POST body.
+- **checkQuery(filedName)** - check GET query.
+- **checkQuery(filedName)** - check the params in the urls.
+
+
+## Validator Api
+### access validator status
+
+- **addError([tip])** - 
+- **hasError([tip])** - 
+
+### Validators
+
+- **optional()** - the param may not in the params.
+- **notEmpty([tip])** - 
+- **empty([tip])** - the params can be a empty string
+- **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
+- **isInt([tip])** - 
+- **isFloat([tip])** - 
+- **isLength(min,[max],[tip])** - check the param length.
+- **len(min,[max],[tip])** - the abbreviation of isLength.
+- **isIn(arr,[tip])** - 
+- **in(arr,[tip])** - the abbreviation of isIn.
+- **eq(value,[tip])** - 
+- **neq(value,[tip])** - 
+- **gt(num,[tip])** - 
+- **lt(num,[tip])** - 
+- **ge(num,[tip])** - 
+- **le(num,[tip])** - 
+- **contains(str,[tip])** - 
+- **notContains(str,[tip])** - 
+- **isEmail([tip])** - 
+- **isUrl([tip])** - 
+- **isIp([tip])** - 
+- **isAlpha([tip])** - 
+- **isNumeric([tip])** - 
+- **isAlphanumeric([tip])** - 
+- **isBase64([tip])** - 
+- **isHexadecimal([tip])** - 
+- **isHexColor([tip])** - 
+- **isLowercase([tip])** - 
+- **isUppercase([tip])** - 
+- **isDivisibleBy(num,[tip])** - 
+- **isNull([tip])** - 
+- **isByteLength(min,max,[tip])** - 
+- **byteLength(min,max,[tip])** - the abbreviation of isByteLength.
+- **isUUID([tip])** - 
+- **isDate([tip])** - 
+- **isTime([tip])** - 
+- **isAfter(date,[tip])** - 
+- **isBefore(date,[tip])** - 
+- **isCreditCard([tip])** - 
+- **isISBN([tip])** - 
+- **isJSON([tip])** - 
+- **isMultibyte([tip])** - 
+- **isAscii([tip])** - 
+- **isFullWidth([tip])** - 
+- **isHalfWidth([tip])** - 
+- **isVariableWidth([tip])** - 
+- **isSurrogatePair([tip])** - 
+
+### Sanitizers
+
+- **default(value)** - 
+- **toDate()** - 
+- **toInt()** - 
+- **toFloat()** - 
+- **toLowercase()** - 
+- **toLow([tip])** - 
+- **toUppercase()** - 
+- **toUp()** - 
+- **toBoolean()** - 
+- **trim()** - 
+- **ltrim()** - 
+- **rtrim()** - 
+- **escape()** - 
+- **stripLow()** - 
+- **whitelist(value)** - 
+- **blacklist(value)** - 
+
+## how to extends validate:
+
+```
+var Validator = require('koa-validate').Validator;
+// to do what you want to.
+```
