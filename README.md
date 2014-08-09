@@ -129,7 +129,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **toInt()** - 
 - **toFloat()** - 
 - **toLowercase()** - 
-- **toLow([tip])** - 
+- **toLow()** - 
 - **toUppercase()** - 
 - **toUp()** - 
 - **toBoolean()** - 
