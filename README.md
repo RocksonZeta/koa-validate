@@ -124,19 +124,19 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 ### Sanitizers:
 
-- **default(value)** - 
-- **toDate()** - 
-- **toInt()** - 
-- **toFloat()** - 
-- **toLowercase()** - 
-- **toLow()** - 
-- **toUppercase()** - 
-- **toUp()** - 
-- **toBoolean()** - 
-- **trim()** - 
-- **ltrim()** - 
-- **rtrim()** - 
-- **escape()** - 
+- **default(value)** - if the param not exits or is an empty string, it will take the default value.
+- **toDate()** - convert param  to js Date object
+- **toInt()** - convert param to integer
+- **toFloat()** - convert param to float
+- **toLowercase()** - convert param to lowercase
+- **toLow()** - same as toLowercase
+- **toUppercase()** - convert param to uppercase
+- **toUp()** - same as toUppercase
+- **toBoolean()** - convert the param to a boolean. Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.
+- **trim([chars])** - trim characters (whitespace by default) from both sides of the param.
+- **ltrim([chars])** -  trim characters from the left-side of the param.
+- **rtrim([chars])** -  trim characters from the right-side of the param.
+- **escape()** -  replace <, >, & and " with HTML entities.
 - **stripLow()** - 
 - **whitelist(value)** - 
 - **blacklist(value)** - 
