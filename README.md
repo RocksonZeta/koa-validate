@@ -69,27 +69,27 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 ## Validator Api
 ### Access validator status:
 
-- **addError([tip])** - 
-- **hasError([tip])** - 
+- **addError(tip)** - add an error to validator errors.
+- **hasError()** - check if validator has errors.
 
 ### Validators:
 
-- **optional()** - the param may not in the params.
-- **notEmpty([tip])** - check whether the param is no empty.
-- **empty([tip])** - the params can be a empty string
+- **optional()** - the param may not in the params.if the param not exists,it has no error,no matter whether have other checker or not.
+- **empty([tip])** - the params can be a empty string.
+- **notEmpty([tip])** - check if the param is no empty.
 - **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
-- **isInt([tip])** - check whether the param is integer.
-- **isFloat([tip])** - 
+- **isInt([tip])** - check if the param is integer.
+- **isFloat([tip])** - check if the param is float.
 - **isLength(min,[max],[tip])** - check the param length.
 - **len(min,[max],[tip])** - the abbreviation of isLength.
-- **isIn(arr,[tip])** - 
+- **isIn(arr,[tip])** - check if the param is in the array.
 - **in(arr,[tip])** - the abbreviation of isIn.
-- **eq(value,[tip])** - 
-- **neq(value,[tip])** - 
-- **gt(num,[tip])** - 
-- **lt(num,[tip])** - 
-- **ge(num,[tip])** - 
-- **le(num,[tip])** - 
+- **eq(value,[tip])** - check if the param equal to the value.
+- **neq(value,[tip])** - check if the param not equal to the value.
+- **gt(num,[tip])** - check if the param great then the value.
+- **lt(num,[tip])** - check if the param less then the value.
+- **ge(num,[tip])** - check if the param great then or equal the value.
+- **le(num,[tip])** - check if the param less then or equal the value.
 - **contains(str,[tip])** - 
 - **notContains(str,[tip])** - 
 - **isEmail([tip])** - 
@@ -140,6 +140,11 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **stripLow()** - 
 - **whitelist(value)** - 
 - **blacklist(value)** - 
+- **encodeURI()** - ref mdn [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)
+- **decodeURI()** - ref mdn [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
+- **encodeURIComponent()** - ref mdn [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
+- **decodeURIComponent()** - ref mdn [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
+- **replace(regexp|substr, newSubStr|function)** - the same as [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) replace 
 
 ## How to extends validate:
 

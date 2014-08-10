@@ -273,6 +273,7 @@ describe('koa-validate' , function(){
 	});
 	it('there sanitizers should be to okay' , function(done){
 		var app = create_app();
+		var url ="http://www.google.com/"
 		app.post('/sanitizers',function*(){
 			this.checkBody('default').default('default');
 			this.checkBody('int_').toInt();
@@ -288,6 +289,11 @@ describe('koa-validate' , function(){
 			this.checkBody('stripLow').stripLow();
 			this.checkBody('whitelist').whitelist('ll');
 			this.checkBody('blacklist').blacklist('ll');
+			this.checkBody('encodeURI').decodeURI();
+			this.checkBody('decodeURI').encodeURI();
+			this.checkBody('encodeURIComponent').decodeURIComponent();
+			this.checkBody('decodeURIComponent').encodeURIComponent();
+			this.checkBody('rep').replace(',' ,'');
 			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
@@ -337,6 +343,21 @@ describe('koa-validate' , function(){
 			if('heo'!=body.blacklist){
 				this.throw(500);
 			}
+			if(encodeURI(url)!=body.decodeURI){
+				this.throw(500);
+			}
+			if(decodeURI(url)!=body.encodeURI){
+				this.throw(500);
+			}
+			if(encodeURIComponent(url)!=body.decodeURIComponent){
+				this.throw(500);
+			}
+			if(decodeURIComponent(url)!=body.encodeURIComponent){
+				this.throw(500);
+			}
+			if('ab'!=body.rep){
+				this.throw(500);
+			}
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -355,6 +376,11 @@ describe('koa-validate' , function(){
 			stripLow:'abc\r',
 			whitelist:'hello',
 			blacklist:'hello',
+			encodeURI:encodeURI(url),
+			decodeURI:url,
+			encodeURIComponent:encodeURIComponent(url),
+			decodeURIComponent:url,
+			rep:'a,b'
 
 		}).expect(200)
 		.expect('ok' , done);
