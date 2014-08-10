@@ -90,8 +90,8 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **lt(num,[tip])** - check if the param less then the value.
 - **ge(num,[tip])** - check if the param great then or equal the value.
 - **le(num,[tip])** - check if the param less then or equal the value.
-- **contains(str,[tip])** - 
-- **notContains(str,[tip])** - 
+- **contains(str,[tip])** - check if the string contains the str.
+- **notContains(str,[tip])** - check if the string not contains the str.
 - **isEmail([tip])** - 
 - **isUrl([tip])** - 
 - **isIp([tip])** - 
