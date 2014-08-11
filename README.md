@@ -90,37 +90,36 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **lt(num,[tip])** - check if the param less then the value.
 - **ge(num,[tip])** - check if the param great then or equal the value.
 - **le(num,[tip])** - check if the param less then or equal the value.
-- **contains(str,[tip])** - check if the string contains the str.
-- **notContains(str,[tip])** - check if the string not contains the str.
-- **isEmail([tip])** - 
-- **isUrl([tip])** - 
-- **isIp([tip])** - 
-- **isAlpha([tip])** - 
-- **isNumeric([tip])** - 
-- **isAlphanumeric([tip])** - 
-- **isBase64([tip])** - 
-- **isHexadecimal([tip])** - 
-- **isHexColor([tip])** - 
-- **isLowercase([tip])** - 
-- **isUppercase([tip])** - 
-- **isDivisibleBy(num,[tip])** - 
-- **isNull([tip])** - 
-- **isByteLength(min,max,[tip])** - 
+- **contains(str,[tip])** - check if the param contains the str.
+- **notContains(str,[tip])** - check if the param not contains the str.
+- **isEmail([tip])** - check if the param is an email.
+- **isUrl([tip])** - check if the param is an URL.
+- **isIp([tip])** - check if the param is an IP (version 4 or 6).
+- **isAlpha([tip])** - check if the param contains only letters (a-zA-Z).
+- **isNumeric([tip])** - check if the param contains only numbers.
+- **isAlphanumeric([tip])** - check if the param contains only letters and numbers.
+- **isBase64([tip])** - check if a param is base64 encoded.
+- **isHexadecimal([tip])** - check if the param is a hexadecimal number.
+- **isHexColor([tip])** - check if the param is a hexadecimal color.
+- **isLowercase([tip])** - check if the param is lowercase.
+- **isUppercase([tip])** - check if the param is uppercase.
+- **isDivisibleBy(num,[tip])** - check if the param is a number that's divisible by another.
+- **isNull([tip])** - check if the param is null.
+- **isByteLength(min,max,[tip])** - check if the param's length (in bytes) falls in a range.
 - **byteLength(min,max,[tip])** - the abbreviation of isByteLength.
-- **isUUID([tip])** - 
-- **isDate([tip])** - 
-- **isTime([tip])** - 
-- **isAfter(date,[tip])** - 
-- **isBefore(date,[tip])** - 
-- **isCreditCard([tip])** - 
-- **isISBN([tip])** - 
-- **isJSON([tip])** - 
-- **isMultibyte([tip])** - 
-- **isAscii([tip])** - 
-- **isFullWidth([tip])** - 
-- **isHalfWidth([tip])** - 
-- **isVariableWidth([tip])** - 
-- **isSurrogatePair([tip])** - 
+- **isUUID([tip])** - check if the param is a UUID (version 3, 4 or 5).
+- **isDate([tip])** - check if the param is a date.
+- **isAfter(date,[tip])** - check if the param is a date that's after the specified date.
+- **isBefore(date,[tip])** - check if the param is a date that's before the specified date.
+- **isCreditCard([tip])** - check if the param is a credit card.
+- **isISBN([tip])** - check if the param is an ISBN (version 10 or 13).
+- **isJSON([tip])** - check if the param is valid JSON (note: uses JSON.parse).
+- **isMultibyte([tip])** - check if the param contains one or more multibyte chars.
+- **isAscii([tip])** - check if the param contains ASCII chars only.
+- **isFullWidth([tip])** - check if the param contains any full-width chars.
+- **isHalfWidth([tip])** - check if the param contains any half-width chars.
+- **isVariableWidth([tip])** - check if the param contains a mixture of full and half-width chars
+- **isSurrogatePair([tip])** - check if the param contains any surrogate pairs chars.
 
 ### Sanitizers:
 
@@ -137,9 +136,9 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **ltrim([chars])** -  trim characters from the left-side of the param.
 - **rtrim([chars])** -  trim characters from the right-side of the param.
 - **escape()** -  replace <, >, & and " with HTML entities.
-- **stripLow()** - 
-- **whitelist(value)** - 
-- **blacklist(value)** - 
+- **stripLow()** -  remove characters with a numerical value < 32 and 127, mostly control characters. 
+- **whitelist(value)** - remove characters that do not appear in the whitelist.
+- **blacklist(value)** - remove characters that appear in the blacklist.
 - **encodeURI()** - ref mdn [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)
 - **decodeURI()** - ref mdn [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
 - **encodeURIComponent()** - ref mdn [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
