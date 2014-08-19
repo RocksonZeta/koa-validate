@@ -6,7 +6,7 @@ koa-validate
 [![NPM version](https://badge.fury.io/js/koa-validate.svg)](http://badge.fury.io/js/koa-validate)
 [![Dependency Status](https://david-dm.org/RocksonZeta/koa-validate.svg)](https://david-dm.org/RocksonZeta/koa-validate)
 
-[![NPM](https://nodei.co/npm/koa-validate.png?downloads=true&stars=true)](https://nodei.co/npm/koa-validate.png?downloads=true&stars=true)
+[![NPM](https://nodei.co/npm/koa-validate.png?downloads=true&stars=true)](https://nodei.co/npm/koa-validate)
 
 validate koa request params and format request params 
 
@@ -60,12 +60,14 @@ app.get('/user/:id', function * () {
 app.listen(3000);
 ```
 
+## Api
+
 checkBody,checkQuery,checkParams will return a Validator instance.
 when use `app.use(require('koa-validate')())` ,the request context will bind the method:
 
 - **checkBody(filedName)** - check POST body.
 - **checkQuery(filedName)** - check GET query.
-- **checkQuery(filedName)** - check the params in the urls.
+- **checkParams(filedName)** - check the params in the urls.
 
 
 ## Validator Api
