@@ -148,10 +148,18 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **encodeURIComponent()** - ref mdn [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
 - **decodeURIComponent()** - ref mdn [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
 - **replace(regexp|substr, newSubStr|function)** - the same as [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) replace 
+- **clone(newKey,[newValue])** - clone current value to the new key, if newValue supplied , use it. eg. `this.checkBody('v1').clone('md5').md5()`; then your can use `this.request.body.md5`.
+- **encodeBase64()** - encode current value to base64 string.
+- **decodeBase64([inBuffer])** - decode current base64 to a normal string,if inBuffer is true , the value will be a Buffer.
+- **hash(alg , [encoding])** - hash current value use specified algorithm and encoding(if supplied , default is 'hex'). ref [hash](http://nodejs.org/api/crypto.html#crypto_class_hash)
+- **md5()** - md5 current value into hex string.
+- **sha1()** - md5 current value into hex string.
 
 ## How to extends validate:
 
 ```javascript
 var Validator = require('koa-validate').Validator;
 // to do what you want to.
+//you can use this.key ,this.value,this.params,this.context,this.exists
+//use addError(tip) , if you meet error.
 ```

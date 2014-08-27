@@ -2,6 +2,7 @@
 
 var koa = require('koa'),
 request = require('supertest');
+require('should');
 
 
 function create_app(){
@@ -294,6 +295,12 @@ describe('koa-validate' , function(){
 			this.checkBody('encodeURIComponent').decodeURIComponent();
 			this.checkBody('decodeURIComponent').encodeURIComponent();
 			this.checkBody('rep').replace(',' ,'');
+			this.checkBody('base64').clone('base64Buffer').decodeBase64(true);
+			this.checkBody('base64').decodeBase64();
+			this.checkBody('debase64').encodeBase64();
+			this.checkBody('hash').clone('md5').md5();
+			this.checkBody('hash').clone('sha1').sha1();
+			this.checkBody('hash').clone('num1' ,1);
 			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
@@ -358,6 +365,22 @@ describe('koa-validate' , function(){
 			if('ab'!=body.rep){
 				this.throw(500);
 			}
+			if("hello"!=body.base64){
+				this.throw(500);
+			}
+			if('aGVsbG8='!=body.debase64){
+				this.throw(500);
+			}
+			'hello'.should.equal(body.base64Buffer.toString());
+			if('5d41402abc4b2a76b9719d911017c592'!=body.md5){
+				this.throw(500);
+			}
+			if('aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d'!=body.sha1){
+				this.throw(500);
+			}
+			if(1!=body.num1){
+				this.throw(500);
+			}
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -380,7 +403,11 @@ describe('koa-validate' , function(){
 			decodeURI:url,
 			encodeURIComponent:encodeURIComponent(url),
 			decodeURIComponent:url,
-			rep:'a,b'
+			rep:'a,b',
+			debase64:"hello",
+			base64:'aGVsbG8=',	//hello
+			hash:"hello",		//md5 should be 5d41402abc4b2a76b9719d911017c592 , shal should be aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
+
 
 		}).expect(200)
 		.expect('ok' , done);
