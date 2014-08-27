@@ -372,9 +372,7 @@ describe('koa-validate' , function(){
 				this.throw(500);
 			}
 			'hello'.should.equal(body.base64Buffer.toString());
-			if('5d41402abc4b2a76b9719d911017c592'!=body.md5){
-				this.throw(500);
-			}
+			body.md5.should.equal('5d41402abc4b2a76b9719d911017c592');
 			if('aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d'!=body.sha1){
 				this.throw(500);
 			}

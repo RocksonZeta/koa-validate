@@ -28,7 +28,7 @@ app.post('/signup', function * () {
 	//optional() means this param may not in the params.
 	this.checkBody('name').optional().len(2, 20,"are you kidding me?");
 	this.checkBody('email').isEmail("your enter a bad email.");
-	this.checkBody('password').notEmpty().len(3, 20);
+	this.checkBody('password').notEmpty().len(3, 20).md5();
 	//empty() mean this param can be a empty string.
 	this.checkBody('nick').optional().empty().len(3, 20);
 	this.checkBody('age').toInt();
