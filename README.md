@@ -153,7 +153,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **decodeBase64([inBuffer])** - decode current base64 to a normal string,if inBuffer is true , the value will be a Buffer.
 - **hash(alg , [encoding])** - hash current value use specified algorithm and encoding(if supplied , default is 'hex'). ref [hash](http://nodejs.org/api/crypto.html#crypto_class_hash)
 - **md5()** - md5 current value into hex string.
-- **sha1()** - md5 current value into hex string.
+- **sha1()** - sha1 current value into hex string.
 
 ## How to extends validate:
 

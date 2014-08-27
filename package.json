@@ -1,7 +1,7 @@
 {
 	"name": "koa-validate",
 	"version": "0.1.2",
-	"description": "a koa params validate middleware.",
+	"description": "A koa params validate middleware.",
 	"main": "lib/validate.js",
 	"scripts": {
 		"test": "mocha --recursive -R spec --require should --harmony test/ --bail",
