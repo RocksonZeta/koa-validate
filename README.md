@@ -173,7 +173,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **suffixIn(arr,[tip])** - check the suffix of file's if in specified arr. `arr` eg. ['png','jpg']
 
 #### Sanitizers:
-File sanitizers are generators,we should use `yield` to execute them.eg. `yield this.checkFile('file').notEmpty.copy('/')`;
+File sanitizers are generators,we should use `yield` to execute them. eg. `yield this.checkFile('file').notEmpty().copy('/')`;
 
 - **move(target,[afterMove])** - move upload file to the target location. target can be a `string` or `function` or `function*`.if target end with '/' or '\\',the target will be deemed as directory.
 target function interface:`string function(fileObject,fieldName,context)`.this function will return a string of the target file.
