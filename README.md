@@ -32,6 +32,7 @@ app.post('/signup', function * () {
 	//empty() mean this param can be a empty string.
 	this.checkBody('nick').optional().empty().len(3, 20);
 	this.checkBody('age').toInt();
+	yield this.checkFile('icon').notEmpty().size(0,300*1024,'file too large').copy("/static/icon/");
 	if (this.errors) {
 		this.body = this.errors;
 		return;
@@ -169,6 +170,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **suffixIn(arr,[tip])** - check the suffix of file's if in specified arr. `arr` eg. ['png','jpg']
 
 #### Sanitizers:
+File sanitizers are generators,we should use `yield` to execute them.eg. `yield this.checkFile('file').notEmpty.copy('/')`;
 
 - **move(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
 - **copy(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
