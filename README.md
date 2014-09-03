@@ -68,7 +68,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **checkBody(filedName)** - check POST body.
 - **checkQuery(filedName)** - check GET query.
 - **checkParams(filedName)** - check the params in the urls.
-- **checkFile(filedName,[deleteOnCheckFailed])** - check the file object in the urls, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
+- **checkFile(filedName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
 
 
 ## Validator Api
