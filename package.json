@@ -1,6 +1,6 @@
 {
 	"name": "koa-validate",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "A koa params validate middleware.",
 	"main": "lib/validate.js",
 	"scripts": {
@@ -23,7 +23,7 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"debug": "*",
+		"debug": "^2.0.0",
 		"validator": "^3.17.0"
 	},
 	"devDependencies": {

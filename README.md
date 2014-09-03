@@ -32,7 +32,9 @@ app.post('/signup', function * () {
 	//empty() mean this param can be a empty string.
 	this.checkBody('nick').optional().empty().len(3, 20);
 	this.checkBody('age').toInt();
-	yield this.checkFile('icon').notEmpty().size(0,300*1024,'file too large').copy("/static/icon/");
+	yield this.checkFile('icon').notEmpty().size(0,300*1024,'file too large').move("/static/icon/" , function*(file,context){
+		//resize image
+	});
 	if (this.errors) {
 		this.body = this.errors;
 		return;
@@ -173,8 +175,11 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 #### Sanitizers:
 File sanitizers are generators,we should use `yield` to execute them.eg. `yield this.checkFile('file').notEmpty.copy('/')`;
 
-- **move(target)** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
-- **copy(target)** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
+- **move(target,[afterMove])** - move upload file to the target location. target can be a `string` or `function` or `function*`.if target end with '/' or '\\',the target will be deemed as directory.
+target function interface:`string function(fileObject,fieldName,context)`.this function will return a string of the target file.
+afterMove:it can be a `function` or `function*`.interface:`function(filePath,context,fieldName)`
+- **copy(target,[afterCopy])** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
+afterCopy:it can be a `function` or `function*`.interface:`function(filePath,context,fieldName)`
 - **delete()** - delete upload file.
 
 

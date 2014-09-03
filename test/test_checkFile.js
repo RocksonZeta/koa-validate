@@ -22,9 +22,11 @@ describe('koa-validate' , function(){
 			this.checkFile('empty').empty();
 			// this.checkFile('file1').empty().contentTypeMatch(/^text/);
 			this.checkFile('file').empty().contentTypeMatch(/^application\//);
-			yield this.checkFile('file1').empty().move(__dirname+"/temp");
+			yield this.checkFile('file1').empty().move(__dirname+"/temp", function(file , context){
+			});
 			this.checkFile('file').notEmpty();
-			yield this.checkFile('file').notEmpty().copy(__dirname+"/tempdir/");
+			yield this.checkFile('file').notEmpty().copy(__dirname+"/tempdir/" , function(file , context){
+			});
 			yield this.checkFile('file').notEmpty().copy(__dirname);
 			yield this.checkFile('file').notEmpty().copy(function(){return __dirname+"/temp"});
 			yield (yield this.checkFile('file').notEmpty().fileNameMatch(/^.*.js$/).size(0,10*1024).suffixIn(['js']).copy(function*(obj){
