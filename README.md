@@ -65,10 +65,10 @@ app.listen(3000);
 checkBody,checkQuery,checkParams will return a Validator instance.
 when use `app.use(require('koa-validate')())` ,the request context will bind the method:
 
-- **checkBody(filedName)** - check POST body.
-- **checkQuery(filedName)** - check GET query.
-- **checkParams(filedName)** - check the params in the urls.
-- **checkFile(filedName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
+- **checkBody(fieldName)** - check POST body.
+- **checkQuery(fieldName)** - check GET query.
+- **checkParams(fieldName)** - check the params in the urls.
+- **checkFile(fieldName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
 
 
 ## Validator Api
@@ -156,8 +156,9 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **md5()** - md5 current value into hex string.
 - **sha1()** - sha1 current value into hex string.
 
-### checkFile
-Validators:
+### FileValidator:
+
+#### Validators:
 
 - **empty()** - current file field can to be a empty file.
 - **notEmpty([tip])** - current file field can not to be a empty file.
@@ -167,7 +168,7 @@ Validators:
 - **fileNameMatch(reg,[tip])** - check the file's name with regular expression.
 - **suffixIn(arr,[tip])** - check the suffix of file's if in specified arr. `arr` eg. ['png','jpg']
 
-Sanitizers:
+#### Sanitizers:
 
 - **move(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
 - **copy(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
