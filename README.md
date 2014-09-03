@@ -68,6 +68,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **checkBody(filedName)** - check POST body.
 - **checkQuery(filedName)** - check GET query.
 - **checkParams(filedName)** - check the params in the urls.
+- **checkFile(filedName,[deleteOnCheckFailed])** - check the file object in the urls, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
 
 
 ## Validator Api
@@ -154,6 +155,25 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **hash(alg , [encoding])** - hash current value use specified algorithm and encoding(if supplied , default is 'hex'). ref [hash](http://nodejs.org/api/crypto.html#crypto_class_hash)
 - **md5()** - md5 current value into hex string.
 - **sha1()** - sha1 current value into hex string.
+
+### checkFile
+Validators:
+
+- **empty()** - current file field can to be a empty file.
+- **notEmpty([tip])** - current file field can not to be a empty file.
+- **size(min,max,[tip])** - limit the file size.
+- **contentTypeMatch(reg,[tip])** - check the file's contentType with regular expression.
+- **isImageContentType([tip])** - check the file's contentType if is image content type.
+- **fileNameMatch(reg,[tip])** - check the file's name with regular expression.
+- **suffixIn(arr,[tip])** - check the suffix of file's if in specified arr. `arr` eg. ['png','jpg']
+
+Sanitizers:
+
+- **move(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
+- **copy(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
+- **delete()** - delete upload file.
+
+
 
 ## How to extends validate:
 

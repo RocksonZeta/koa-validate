@@ -301,6 +301,7 @@ describe('koa-validate' , function(){
 			this.checkBody('hash').clone('md5').md5();
 			this.checkBody('hash').clone('sha1').sha1();
 			this.checkBody('hash').clone('num1' ,1);
+			this.checkBody('json').toJson();
 			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
@@ -379,6 +380,9 @@ describe('koa-validate' , function(){
 			if(1!=body.num1){
 				this.throw(500);
 			}
+			if(1!=body.json.a){
+				this.throw(500);
+			}
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -391,6 +395,7 @@ describe('koa-validate' , function(){
 			trim:' jim ',
 			ltrim:' jim ',
 			rtrim:' jim ',
+			json:'{"a":1}',
 			up:'jim',
 			low:'Jim',
 			escape:'<div>',

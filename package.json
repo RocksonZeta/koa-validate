@@ -1,12 +1,12 @@
 {
 	"name": "koa-validate",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"description": "A koa params validate middleware.",
 	"main": "lib/validate.js",
 	"scripts": {
-		"test": "mocha --recursive -R spec --require should --harmony test/ --bail",
-		"test-cov": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- -u exports --require should  --recursive test/ --bail",
-		"test-travis": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -u exports --require should  --recursive test/ --bail"
+		"test": "mocha -R spec --require should --harmony test/ --bail",
+		"test-cov": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- -u exports --require should  test/ --bail",
+		"test-travis": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -u exports --require should test/ --bail"
 	},
 	"repository": {
 		"type": "git",
