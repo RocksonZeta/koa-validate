@@ -172,8 +172,8 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 #### Sanitizers:
 File sanitizers are generators,we should use `yield` to execute them.eg. `yield this.checkFile('file').notEmpty.copy('/')`;
 
-- **move(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
-- **copy(target)** - move upload file to the target location. target can be a string or function or function*. target function interface:function (fileObject,fieldName,context) .
+- **move(target)** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
+- **copy(target)** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
 - **delete()** - delete upload file.
 
 
