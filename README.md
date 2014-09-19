@@ -6,7 +6,7 @@ koa-validate
 [![NPM version](https://badge.fury.io/js/koa-validate.svg)](http://badge.fury.io/js/koa-validate)
 [![Dependency Status](https://david-dm.org/RocksonZeta/koa-validate.svg)](https://david-dm.org/RocksonZeta/koa-validate)
 
-[![NPM](https://nodei.co/npm/koa-validate.png?downloads=true&stars=true)](https://nodei.co/npm/koa-validate)
+[![NPM](https://nodei.co/npm/koa-validate.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/koa-validate/)
 
 validate koa request params and format request params 
 
