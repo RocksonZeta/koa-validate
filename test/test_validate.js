@@ -67,6 +67,9 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
+            this.checkBody('object.property').notEmpty().len(3,20);
+            this.checkBody('object.child.property').notEmpty().len(3,20);
+            this.checkBody('object.child.child.property').notEmpty().len(3,20);
 			if(this.errors){
 				this.body = this.errors;
 				 return;
@@ -122,7 +125,16 @@ describe('koa-validate' , function(){
 			fw:"宽字节",
 			hw:"a字节",
 			vw:"v多字节",
-			sp:'ABC千𥧄1-2-3'
+			sp:'ABC千𥧄1-2-3',
+            object: {
+                property: 'property test',
+                child: {
+                    property: 'child property test',
+                    child: {
+                        property: 'child property test'
+                    }
+                }
+            }
 		})
 		.expect(200)
 		.expect('ok' ,done);
@@ -179,8 +191,11 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			if(this.errors.length === 48){
-				this.body = this.errors;
+            this.checkBody('object.property').notEmpty().len(3,20);
+            this.checkBody('object.child.property').notEmpty().len(3,20);
+            this.checkBody('object.child.child.property').notEmpty().len(3,20);
+			if(this.errors.length === 51){
+				//this.body = this.errors;
 				this.body = 'ok';
 				return ;
 			}
@@ -232,7 +247,10 @@ describe('koa-validate' , function(){
 			fw:"43",
 			hw:"你好",
 			vw:"aa",
-			sp:'fdfd'
+			sp:'fdfd',
+            object: {
+                property: ''
+            }
 		})
 		.expect(200)
 		.expect('ok' ,done);
@@ -302,6 +320,8 @@ describe('koa-validate' , function(){
 			this.checkBody('hash').clone('sha1').sha1();
 			this.checkBody('hash').clone('num1' ,1);
 			this.checkBody('json').toJson();
+            this.checkBody('object.int_').toInt();
+            this.checkBody('object.child.date').toDate();
 			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
@@ -383,6 +403,14 @@ describe('koa-validate' , function(){
 			if(1!=body.json.a){
 				this.throw(500);
 			}
+
+            if(20 !== body.object.int_ ){
+                this.throw(500);
+            }
+            if(new Date('2014-01-01').getTime() !== body.object.child.date.getTime() ){
+                this.throw(500);
+            }
+
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -410,7 +438,12 @@ describe('koa-validate' , function(){
 			debase64:"hello",
 			base64:'aGVsbG8=',	//hello
 			hash:"hello",		//md5 should be 5d41402abc4b2a76b9719d911017c592 , shal should be aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
-
+            object: {
+                int_: 20,
+                child: {
+                    date:'2014-01-01'
+                }
+            }
 
 		}).expect(200)
 		.expect('ok' , done);
