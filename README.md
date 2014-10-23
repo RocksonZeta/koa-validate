@@ -177,9 +177,9 @@ File sanitizers are generators,we should use `yield` to execute them. eg. `yield
 
 - **move(target,[afterMove])** - move upload file to the target location. target can be a `string` or `function` or `function*`.if target end with '/' or '\\',the target will be deemed as directory.
 target function interface:`string function(fileObject,fieldName,context)`.this function will return a string of the target file.
-afterMove:it can be a `function` or `function*`.interface:`function(filePath,context,fieldName)`
+afterMove:it can be a `function` or `function*`.interface:`function(fileObject,fieldName,context)`
 - **copy(target,[afterCopy])** - move upload file to the target location. target can be a `string` or `function` or `function*`. target function interface:`function (fileObject,fieldName,context)` .
-afterCopy:it can be a `function` or `function*`.interface:`function(filePath,context,fieldName)`
+afterCopy:it can be a `function` or `function*`.interface:`function(fileObject,fieldName,context)`
 - **delete()** - delete upload file.
 
 
