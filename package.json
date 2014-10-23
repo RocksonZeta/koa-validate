@@ -32,7 +32,7 @@
 		"koa-body": "*",
 		"should": "*",
 		"mocha": "*",
-		"supertest": "*",
+		"supertest": "^0.13.0",
 		"coveralls": "*",
 		"mocha-lcov-reporter": "*",
 		"istanbul-harmony": "*"
