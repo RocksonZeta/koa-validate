@@ -39,7 +39,7 @@ app.post('/signup', function * () {
 		this.body = this.errors;
 		return;
 	}
-	this.body = this.body;
+	this.body = this.request.body;
 });
 app.get('/users', function * () {
 	this.checkQuery('department').empty().in(["sale","finance"], "not support this department!").len(3, 20);	
