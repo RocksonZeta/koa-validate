@@ -78,7 +78,7 @@ describe('koa-validate' , function(){
 	it("0 len should be ok" , function(done){
 		var app = create_app();
 		app.post('/len',function*(){
-			this.checkBody('v').len(2);
+			this.checkBody('v').len(0,1);
 			if(this.errors) {
 				this.status=500;
 			}else{
@@ -87,7 +87,7 @@ describe('koa-validate' , function(){
 		});
 		var req = request(app.listen());
 		req.post('/len')
-		.send({v:"1"})
+		.send({v:""})
 		.expect(200 , done);
 	});
 });
