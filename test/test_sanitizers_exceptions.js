@@ -74,4 +74,20 @@ describe('koa-validate' , function(){
 		.send({v:"gg"})
 		.expect(500 , done);
 	});
+
+	it("0 len should be ok" , function(done){
+		var app = create_app();
+		app.post('/len',function*(){
+			this.checkBody('v').len(2);
+			if(this.errors) {
+				this.status=500;
+			}else{
+				this.status=200;
+			}
+		});
+		var req = request(app.listen());
+		req.post('/len')
+		.send({v:"1"})
+		.expect(200 , done);
+	});
 });
