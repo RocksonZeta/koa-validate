@@ -21,6 +21,9 @@ describe('koa-validate' , function(){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('empty').empty();
 			this.checkBody('match').match(/^abc$/i);
+			this.checkBody('notMatch').notMatch(/^xyz$/i);
+			this.checkBody('ensure').ensure(true);
+			this.checkBody('ensureNot').ensureNot(false);
 			this.checkBody('integer').isInt(/^abc$/i);
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
@@ -85,6 +88,9 @@ describe('koa-validate' , function(){
 			email:"jim@gmail.com",
 			len:"len",
 			match:"abc",
+			notMmatch:"abc",
+			ensure:"",
+			ensureNot:"",
 			integer:12,
 			float_:1.23,
 			in:1,
