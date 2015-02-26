@@ -10,7 +10,7 @@ koa-validate
 
 validate koa request params and format request params 
 
-##installation
+## installation
 ```
 $ npm install koa-validate --save
 ```
