@@ -169,6 +169,7 @@ describe('koa-validate' , function(){
 			this.checkBody('div').isDivisibleBy(3);
 			this.checkBody('n').isNull();
 			this.checkBody('len').isLength(3,4);
+			this.checkBody('len1').isLength(3,4);
 			this.checkBody('byteLenght').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
 			this.checkBody('time').isTime();
@@ -185,7 +186,8 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			if(this.errors.length === 48){
+			console.log(this.errors)
+			if(this.errors.length === 49){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -200,6 +202,7 @@ describe('koa-validate' , function(){
 			empty:"fd",
 			email:"jim@@gmail.com",
 			len:"l",
+			len1:"length1",
 			match:"xyz",
 			integer:"12a",
 			float_:'a1.23',
