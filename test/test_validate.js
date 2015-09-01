@@ -21,6 +21,9 @@ describe('koa-validate' , function(){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('empty').empty();
 			this.checkBody('match').match(/^abc$/i);
+			this.checkBody('notMatch').notMatch(/^xyz$/i);
+			this.checkBody('ensure').ensure(true);
+			this.checkBody('ensureNot').ensureNot(false);
 			this.checkBody('integer').isInt(/^abc$/i);
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
@@ -88,6 +91,9 @@ describe('koa-validate' , function(){
 			email:"jim@gmail.com",
 			len:"len",
 			match:"abc",
+			notMmatch:"abc",
+			ensure:"",
+			ensureNot:"",
 			integer:12,
 			float_:1.23,
 			in:1,
@@ -175,6 +181,7 @@ describe('koa-validate' , function(){
 			this.checkBody('div').isDivisibleBy(3);
 			this.checkBody('n').isNull();
 			this.checkBody('len').isLength(3,4);
+			this.checkBody('len1').isLength(3,4);
 			this.checkBody('byteLenght').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
 			this.checkBody('time').isTime();
@@ -194,8 +201,9 @@ describe('koa-validate' , function(){
 			this.checkBody('object.property').notEmpty().len(3,20);
 			this.checkBody('object.child.property').notEmpty().len(3,20);
 			this.checkBody('object.child.child.property').notEmpty().len(3,20);
-			if(this.errors.length === 51){
-				//this.body = this.errors;
+			console.log(this.errors)
+			if(this.errors.length === 52){
+				this.body = this.errors;
 				this.body = 'ok';
 				return ;
 			}
@@ -209,6 +217,7 @@ describe('koa-validate' , function(){
 			empty:"fd",
 			email:"jim@@gmail.com",
 			len:"l",
+			len1:"length1",
 			match:"xyz",
 			integer:"12a",
 			float_:'a1.23',
@@ -216,7 +225,7 @@ describe('koa-validate' , function(){
 			eq:"neq",
 			neq:'eq',
 			number4:'4',
-			contains:"hello" , 
+			contains:"hello" ,
 			notContains:"h f",
 			url:"google",
 			ip:'192.168.',
@@ -255,7 +264,7 @@ describe('koa-validate' , function(){
 		.expect(200)
 		.expect('ok' ,done);
 	});
-	
+
 	it('there validate query should be to okay' , function(done){
 		var app = create_app();
 		app.get('/query',function*(){
@@ -403,14 +412,12 @@ describe('koa-validate' , function(){
 			if(1!=body.json.a){
 				this.throw(500);
 			}
-
 			if(20 !== body.object.int_ ){
 				this.throw(500);
 			}
 			if(new Date('2014-01-01').getTime() !== body.object.child.date.getTime() ){
 				this.throw(500);
 			}
-
 			this.body = 'ok';
 		});
 		request(app.listen())
@@ -449,5 +456,3 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 });
-
-

@@ -10,12 +10,12 @@ koa-validate
 
 validate koa request params and format request params 
 
-##installation
+## Installation
 ```
-$ npm install koa-validate
+$ npm install koa-validate --save
 ```
 
-## basic usage:
+## Basic usage:
 ```javascript
 'use strict';
 var koa = require('koa');
@@ -63,7 +63,7 @@ app.get('/user/:id', function * () {
 app.listen(3000);
 ```
 
-## Api
+## API
 
 checkBody,checkQuery,checkParams will return a Validator instance.
 when use `app.use(require('koa-validate')())` ,the request context will bind the method:
@@ -74,7 +74,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **checkFile(fieldName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
 
 
-## Validator Api
+## Validator API
 ### Access validator status:
 
 - **addError(tip)** - add an error to validator errors.
@@ -86,6 +86,9 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **empty([tip])** - the params can be a empty string.
 - **notEmpty([tip])** - check if the param is no empty.
 - **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
+- **notMatch(pattern,[tip])** - pattern must be a RegExp instance ,eg. /xyz/i
+- **ensure(assertion, [tip], [shouldBail])** if assertion is false,the asserting failed.
+- **ensureNot(assertion, [tip], [shouldBail])** if assertion is true,the asserting failed.
 - **isInt([tip])** - check if the param is integer.
 - **isFloat([tip])** - check if the param is float.
 - **isLength(min,[max],[tip])** - check the param length.
@@ -133,14 +136,14 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 - **default(value)** - if the param not exits or is an empty string, it will take the default value.
 - **toDate()** - convert param  to js Date object.
-- **toInt()** - convert param to integer.
-- **toFloat()** - convert param to float.
+- **toInt([tip])** - convert param to integer.
+- **toFloat([tip])** - convert param to float.
 - **toLowercase()** - convert param to lowercase.
 - **toLow()** - same as toLowercase.
 - **toUppercase()** - convert param to uppercase.
 - **toUp()** - same as toUppercase.
 - **toBoolean()** - convert the param to a boolean. Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.
-- **toJson()** - convert param to json object.
+- **toJson([tip])** - convert param to json object.
 - **trim([chars])** - trim characters (whitespace by default) from both sides of the param.
 - **ltrim([chars])** -  trim characters from the left-side of the param.
 - **rtrim([chars])** -  trim characters from the right-side of the param.
@@ -149,13 +152,13 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **whitelist(value)** - remove characters that do not appear in the whitelist.
 - **blacklist(value)** - remove characters that appear in the blacklist.
 - **encodeURI()** - ref mdn [encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)
-- **decodeURI()** - ref mdn [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
+- **decodeURI([tip])** - ref mdn [decodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
 - **encodeURIComponent()** - ref mdn [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
-- **decodeURIComponent()** - ref mdn [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
+- **decodeURIComponent([tip])** - ref mdn [decodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
 - **replace(regexp|substr, newSubStr|function)** - the same as [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) replace 
 - **clone(newKey,[newValue])** - clone current value to the new key, if newValue supplied , use it. eg. `this.checkBody('v1').clone('md5').md5()`; then your can use `this.request.body.md5`.
 - **encodeBase64()** - encode current value to base64 string.
-- **decodeBase64([inBuffer])** - decode current base64 to a normal string,if inBuffer is true , the value will be a Buffer.
+- **decodeBase64([inBuffer],[tip])** - decode current base64 to a normal string,if inBuffer is true , the value will be a Buffer.
 - **hash(alg , [encoding])** - hash current value use specified algorithm and encoding(if supplied , default is 'hex'). ref [hash](http://nodejs.org/api/crypto.html#crypto_class_hash)
 - **md5()** - md5 current value into hex string.
 - **sha1()** - sha1 current value into hex string.
