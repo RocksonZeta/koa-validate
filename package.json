@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^2.0.0",
-    "validator": "^4.7.0"
+    "validator": "^5.0.0"
   },
   "devDependencies": {
     "koa": "*",
