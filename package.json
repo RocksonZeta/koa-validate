@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "koa": "*",
-    "koa-router": "*",
+    "koa-router": "^4.3.2",
     "koa-body": "*",
     "should": "*",
     "mocha": "*",
