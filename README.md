@@ -106,9 +106,9 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **isEmail([tip])** - check if the param is an email.
 - **isUrl([tip])** - check if the param is an URL.
 - **isIp([tip])** - check if the param is an IP (version 4 or 6).
-- **isAlpha([tip])** - check if the param contains only letters (a-zA-Z).
+- **isAlpha([locale], [tip])** - check if the param contains only letters (a-zA-Z).
 - **isNumeric([tip])** - check if the param contains only numbers.
-- **isAlphanumeric([tip])** - check if the param contains only letters and numbers.
+- **isAlphanumeric([locale], [tip])** - check if the param contains only letters and numbers.
 - **isBase64([tip])** - check if a param is base64 encoded.
 - **isHexadecimal([tip])** - check if the param is a hexadecimal number.
 - **isHexColor([tip])** - check if the param is a hexadecimal color.

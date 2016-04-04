@@ -14,7 +14,7 @@ function create_app(){
 }
 
 describe('koa-validate' , function(){
-	it("these validates should be to ok" , function(done){
+	it("these validations should pass" , function(done){
 		var app = create_app();
 		app.post('/validate',function*(){
 			this.checkBody('optional').optional().len(3,20);
@@ -41,8 +41,10 @@ describe('koa-validate' , function(){
 			this.checkBody('url').isUrl();
 			this.checkBody('ip').isIp();
 			this.checkBody('alpha').isAlpha();
+			this.checkBody('alphaDe').isAlpha('de-DE');
 			this.checkBody('numeric').isNumeric();
 			this.checkBody('an').isAlphanumeric();
+			this.checkBody('anDe').isAlphanumeric('de-DE');
 			this.checkBody('base64').isBase64();
 			this.checkBody('hex').isHexadecimal();
 			this.checkBody('color1').isHexColor();
@@ -58,8 +60,8 @@ describe('koa-validate' , function(){
 			this.checkBody('uuid').isUUID();
 			this.checkBody('date').isDate();
 			this.checkBody('time').isTime();
-			this.checkBody('after').isAfter(new Date("2014-08-06"));
-			this.checkBody('before').isBefore(new Date("2014-08-08"));
+			this.checkBody('after').isAfter("2014-08-06");
+			this.checkBody('before').isBefore("2014-08-08");
 			this.checkBody('in').isIn();
 			this.checkBody('credit').isCreditCard();
 			this.checkBody('isbn').isISBN();
@@ -102,8 +104,10 @@ describe('koa-validate' , function(){
 			url:"http://www.google.com",
 			ip:'192.168.1.1',
 			alpha:"abxyABXZ",
+			alphaDe:"tschüß",
 			numeric:"3243134",
 			an:"a1b2c3",
+			anDe:"a1b2c3ü4ß6",
 			base64:"aGVsbG8=",
 			hex:"0a1b2c3ef",
 			color1:"#ffffff",
@@ -134,7 +138,7 @@ describe('koa-validate' , function(){
 		.expect('ok' ,done);
 	});
 
-	it("these validates fail tests should be to ok" , function(done){
+	it("these validations should fail" , function(done){
 		var app = create_app();
 		app.post('/validate',function*(){
 			this.checkBody('name').notEmpty().len(3,20);
@@ -156,8 +160,10 @@ describe('koa-validate' , function(){
 			this.checkBody('url').isUrl();
 			this.checkBody('ip').isIp();
 			this.checkBody('alpha').isAlpha();
+			this.checkBody('alphaDe').isAlpha('de-DE');
 			this.checkBody('numeric').isNumeric();
 			this.checkBody('an').isAlphanumeric();
+			this.checkBody('anDe').isAlphanumeric('de-DE');
 			this.checkBody('base64').isBase64();
 			this.checkBody('hex').isHexadecimal();
 			this.checkBody('color1').isHexColor();
@@ -174,8 +180,8 @@ describe('koa-validate' , function(){
 			this.checkBody('uuid').isUUID();
 			this.checkBody('time').isTime();
 			this.checkBody('date').isDate();
-			this.checkBody('after').isAfter(new Date("2014-08-06"));
-			this.checkBody('before').isBefore(new Date("2014-08-02"));
+			this.checkBody('after').isAfter("2014-08-06");
+			this.checkBody('before').isBefore("2014-08-02");
 			this.checkBody('in').isIn([1,2]);
 			this.checkBody('credit').isCreditCard();
 			this.checkBody('isbn').isISBN();
@@ -187,7 +193,7 @@ describe('koa-validate' , function(){
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
 			console.log(this.errors)
-			if(this.errors.length === 49){
+			if(this.errors.length === 51){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -210,13 +216,15 @@ describe('koa-validate' , function(){
 			eq:"neq",
 			neq:'eq',
 			number4:'4',
-			contains:"hello" , 
+			contains:"hello" ,
 			notContains:"h f",
 			url:"google",
 			ip:'192.168.',
 			alpha:"321",
+			alphaDe:"řeč",
 			numeric:"fada",
 			an:"__a",
+			anDe:"__a",
 			base64:"fdsaf",
 			hex:"hgsr",
 			color1:"#fffff",
@@ -246,8 +254,8 @@ describe('koa-validate' , function(){
 		.expect(200)
 		.expect('ok' ,done);
 	});
-	
-	it('there validate query should be to okay' , function(done){
+
+	it('these query validations should pass' , function(done){
 		var app = create_app();
 		app.get('/query',function*(){
 			this.checkQuery('name').notEmpty();
@@ -266,7 +274,7 @@ describe('koa-validate' , function(){
 		}).expect(200)
 		.expect('ok' , done);
 	});
-	it('there validate params should be to okay' , function(done){
+	it('these params validations should pass' , function(done){
 		var app = create_app();
 		app.get('/:id',function*(){
 			this.checkParams('id').isInt();
@@ -281,7 +289,7 @@ describe('koa-validate' , function(){
 		.expect(200)
 		.expect('ok' , done);
 	});
-	it('there sanitizers should be to okay' , function(done){
+	it('these sanitizers should pass' , function(done){
 		var app = create_app();
 		var url ="http://www.google.com/"
 		app.post('/sanitizers',function*(){
@@ -425,5 +433,3 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 });
-
-
