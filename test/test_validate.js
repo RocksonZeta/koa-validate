@@ -41,8 +41,10 @@ describe('koa-validate' , function(){
 			this.checkBody('url').isUrl();
 			this.checkBody('ip').isIp();
 			this.checkBody('alpha').isAlpha();
+			this.checkBody('alphaDe').isAlpha('de-DE');
 			this.checkBody('numeric').isNumeric();
 			this.checkBody('an').isAlphanumeric();
+			this.checkBody('anDe').isAlphanumeric('de-DE');
 			this.checkBody('base64').isBase64();
 			this.checkBody('hex').isHexadecimal();
 			this.checkBody('color1').isHexColor();
@@ -102,8 +104,10 @@ describe('koa-validate' , function(){
 			url:"http://www.google.com",
 			ip:'192.168.1.1',
 			alpha:"abxyABXZ",
+			alphaDe:"tschüß",
 			numeric:"3243134",
 			an:"a1b2c3",
+			anDe:"a1b2c3ü4ß6",
 			base64:"aGVsbG8=",
 			hex:"0a1b2c3ef",
 			color1:"#ffffff",
@@ -156,8 +160,10 @@ describe('koa-validate' , function(){
 			this.checkBody('url').isUrl();
 			this.checkBody('ip').isIp();
 			this.checkBody('alpha').isAlpha();
+			this.checkBody('alphaDe').isAlpha('de-DE');
 			this.checkBody('numeric').isNumeric();
 			this.checkBody('an').isAlphanumeric();
+			this.checkBody('anDe').isAlphanumeric('de-DE');
 			this.checkBody('base64').isBase64();
 			this.checkBody('hex').isHexadecimal();
 			this.checkBody('color1').isHexColor();
@@ -215,8 +221,10 @@ describe('koa-validate' , function(){
 			url:"google",
 			ip:'192.168.',
 			alpha:"321",
+			alphaDe:"řeč",
 			numeric:"fada",
 			an:"__a",
+			anDe:"__a",
 			base64:"fdsaf",
 			hex:"hgsr",
 			color1:"#fffff",
