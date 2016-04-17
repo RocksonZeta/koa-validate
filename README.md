@@ -20,18 +20,20 @@ $ npm install koa-validate --save
 'use strict';
 var koa = require('koa');
 var app = koa();
+var router = require('koa-router')();
 
 app.use(require('koa-body')());
 app.use(require('koa-validate')());
-app.use(require('koa-router')(app));
-app.post('/signup', function * () {
+app.use(router.routes()).use(router.allowedMethods());
+router.post('/signup', function * () {
 	//optional() means this param may not in the params.
 	this.checkBody('name').optional().len(2, 20,"are you kidding me?");
 	this.checkBody('email').isEmail("your enter a bad email.");
 	this.checkBody('password').notEmpty().len(3, 20).md5();
 	//empty() mean this param can be a empty string.
 	this.checkBody('nick').optional().empty().len(3, 20);
-	this.checkBody('age').toInt();
+	//also we can get the sanitized value 
+	var age = this.checkBody('age').toInt().value;
 	yield this.checkFile('icon').notEmpty().size(0,300*1024,'file too large').move("/static/icon/" , function*(file,context){
 		//resize image
 	});
@@ -39,9 +41,8 @@ app.post('/signup', function * () {
 		this.body = this.errors;
 		return;
 	}
-	this.body = this.request.body;
 });
-app.get('/users', function * () {
+router.get('/users', function * () {
 	this.checkQuery('department').empty().in(["sale","finance"], "not support this department!").len(3, 20);	
 	this.checkQuery('name').empty().len(2,20,"bad name.").trim().toLow();
 	this.checkQuery('age').empty().gt(10,"too young!").lt(30,"to old!").toInt();
@@ -49,16 +50,23 @@ app.get('/users', function * () {
 		this.body = this.errors;
 		return;
 	}
-	this.body = this.query;
 });
-app.get('/user/:id', function * () {
+router.get('/user/:id', function * () {
 	this.checkParams('id').toInt(0);
 	if (this.errors) {
 		this.body = this.errors;
 		return;
 	}
-	this.body = this.params;
 });
+//json body,we can check it using [json path](https://github.com/flitbit/json-path)(like xpath)
+router.post('/json' , function*(){
+	this.checkBody('/store/book[0]/price').get(0).eq(8.95);
+	this.checkBody('#/store/book[0]/category').first().trim().eq('reference');
+	if (this.errors) {
+		this.body = this.errors;
+		return;
+	}
+})
 
 app.listen(3000);
 ```
@@ -68,8 +76,8 @@ app.listen(3000);
 checkBody,checkQuery,checkParams will return a Validator instance.
 when use `app.use(require('koa-validate')())` ,the request context will bind the method:
 
-- **checkBody(fieldName)** - check POST body.
-- **checkQuery(fieldName)** - check GET query.
+- **checkBody(fieldName,transFn)** - check POST body.`,transFn` see [json-path](https://github.com/flitbit/json-path#more-power).it will not use json path if `transFn` is `false`.
+- **checkQuery(fieldName,transFn)** - check GET query.`,transFn` see [json-path](https://github.com/flitbit/json-path#more-power).it will not use json path if `transFn` is `false`.
 - **checkParams(fieldName)** - check the params in the urls.
 - **checkFile(fieldName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
 
@@ -162,6 +170,12 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **hash(alg , [encoding])** - hash current value use specified algorithm and encoding(if supplied , default is 'hex'). ref [hash](http://nodejs.org/api/crypto.html#crypto_class_hash)
 - **md5()** - md5 current value into hex string.
 - **sha1()** - sha1 current value into hex string.
+
+### For json path:
+- **check(fn,tip,scope)** - if fn return `false` then check failed.fn format `function(value,key,requestParams):boolean`
+- **filter(fn,scope)** - filter the value if value is array.fn format `function(value,index,key,requestParams):boolean`
+- **get(index)** - change the value to the specified index value
+- **first()** - get the first value
 
 ### FileValidator:
 

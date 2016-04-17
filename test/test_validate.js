@@ -7,7 +7,7 @@ require('should');
 
 describe('koa-validate' , function(){
 	it("these validates should be to ok" , function(done){
-		var app = appFactory.create(1);
+		var app = appFactory.create();
 		app.router.post('/validate',function*(){
 			this.checkBody('optional').optional().len(3,20);
 			this.checkBody('name').notEmpty().len(3,20);
@@ -127,7 +127,7 @@ describe('koa-validate' , function(){
 	});
 
 	it("these validates fail tests should be to ok" , function(done){
-		var app = appFactory.create(1);
+		var app = appFactory.create();
 		app.router.post('/validate',function*(){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('notEmpty').notEmpty();
@@ -240,7 +240,7 @@ describe('koa-validate' , function(){
 	});
 	
 	it('there validate query should be to okay' , function(done){
-		var app = appFactory.create(1);
+		var app = appFactory.create();
 		app.router.get('/query',function*(){
 			this.checkQuery('name').notEmpty();
 			this.checkQuery('password').len(3,20);
@@ -259,7 +259,7 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 	it('there validate params should be to okay' , function(done){
-		var app = appFactory.create(1);
+		var app = appFactory.create();
 		app.router.get('/:id',function*(){
 			this.checkParams('id').isInt();
 			if(this.errors){
