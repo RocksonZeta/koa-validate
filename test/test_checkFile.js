@@ -1,24 +1,17 @@
 'use strict';
 
 var koa = require('koa'),
-request = require('supertest');
+request = require('supertest'),
+appFactory = require('./appFactory.js');
 require('should');
 
-
-function create_app(){
-	var app = koa();
-	app.use(require('koa-body')({multipart:true , formidable:{keepExtensions:true}}));
-	app.use(require('../lib/validate.js')());
-	app.use(require('koa-router')(app));
-	return app;
-}
 
 
 describe('koa-validate' , function(){
 	// this.timeout(100000);
 	it("these upload should be to ok" , function(done){
-		var app = create_app();
-		app.post('/upload',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/upload',function*(){
 			this.checkFile('empty').empty();
 			// this.checkFile('file1').empty().contentTypeMatch(/^text/);
 			this.checkFile('file').empty().contentTypeMatch(/^application\//);
@@ -54,8 +47,8 @@ describe('koa-validate' , function(){
 	});
 
 	it("these upload file should be failed" , function(done){
-		var app = create_app();
-		app.post('/upload',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/upload',function*(){
 			this.checkFile('empty').notEmpty();
 			this.checkFile('file0').size(10,10 );
 			this.checkFile('file').size(1024*100,1024*1024*10 );

@@ -1,22 +1,14 @@
 'use strict';
 
 var koa = require('koa'),
-request = require('supertest');
+request = require('supertest'),
+appFactory = require('./appFactory.js');
 require('should');
-
-
-function create_app(){
-	var app = koa();
-	// app.use(require('koa-body')({multipart:true , formidable:{keepExtensions:true}}));
-	app.use(require('../lib/validate.js')());
-	app.use(require('koa-router')(app));
-	return app;
-}
 
 describe('koa-validate' , function(){
 	it("nobody to check" , function(done){
-		var app = create_app();
-		app.post('/nobody',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/nobody',function*(){
 			this.checkBody('body').notEmpty();
 			if(this.errors) {
 				this.status=500;
@@ -26,7 +18,7 @@ describe('koa-validate' , function(){
 		});
 		var req = request(app.listen());
 		req.post('/nobody')
-		.send({body:"no"})
+		.send({})
 		.expect(500 , done);
 	});
 

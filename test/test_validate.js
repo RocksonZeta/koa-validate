@@ -1,22 +1,14 @@
 'use strict';
 
 var koa = require('koa'),
-request = require('supertest');
+request = require('supertest'),
+appFactory = require('./appFactory.js');
 require('should');
-
-
-function create_app(){
-	var app = koa();
-	app.use(require('koa-body')());
-	app.use(require('../lib/validate.js')());
-	app.use(require('koa-router')(app));
-	return app;
-}
 
 describe('koa-validate' , function(){
 	it("these validates should be to ok" , function(done){
-		var app = create_app();
-		app.post('/validate',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/validate',function*(){
 			this.checkBody('optional').optional().len(3,20);
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('empty').empty();
@@ -24,7 +16,7 @@ describe('koa-validate' , function(){
 			this.checkBody('notMatch').notMatch(/^xyz$/i);
 			this.checkBody('ensure').ensure(true);
 			this.checkBody('ensureNot').ensureNot(false);
-			this.checkBody('integer').isInt(/^abc$/i);
+			this.checkBody('integer').isInt();
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
@@ -58,8 +50,8 @@ describe('koa-validate' , function(){
 			this.checkBody('uuid').isUUID();
 			this.checkBody('date').isDate();
 			this.checkBody('time').isTime();
-			this.checkBody('after').isAfter(new Date("2014-08-06"));
-			this.checkBody('before').isBefore(new Date("2014-08-08"));
+			this.checkBody('after').isAfter("2014-08-06");
+			this.checkBody('before').isBefore("2014-08-08");
 			this.checkBody('in').isIn();
 			this.checkBody('credit').isCreditCard();
 			this.checkBody('isbn').isISBN();
@@ -135,8 +127,8 @@ describe('koa-validate' , function(){
 	});
 
 	it("these validates fail tests should be to ok" , function(done){
-		var app = create_app();
-		app.post('/validate',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/validate',function*(){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('notEmpty').notEmpty();
 			this.checkBody('notEmpty').len(2,3);
@@ -174,8 +166,8 @@ describe('koa-validate' , function(){
 			this.checkBody('uuid').isUUID();
 			this.checkBody('time').isTime();
 			this.checkBody('date').isDate();
-			this.checkBody('after').isAfter(new Date("2014-08-06"));
-			this.checkBody('before').isBefore(new Date("2014-08-02"));
+			this.checkBody('after').isAfter("2014-08-06");
+			this.checkBody('before').isBefore("2014-08-02");
 			this.checkBody('in').isIn([1,2]);
 			this.checkBody('credit').isCreditCard();
 			this.checkBody('isbn').isISBN();
@@ -248,8 +240,8 @@ describe('koa-validate' , function(){
 	});
 	
 	it('there validate query should be to okay' , function(done){
-		var app = create_app();
-		app.get('/query',function*(){
+		var app = appFactory.create(1);
+		app.router.get('/query',function*(){
 			this.checkQuery('name').notEmpty();
 			this.checkQuery('password').len(3,20);
 			if(this.errors){
@@ -267,8 +259,8 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 	it('there validate params should be to okay' , function(done){
-		var app = create_app();
-		app.get('/:id',function*(){
+		var app = appFactory.create(1);
+		app.router.get('/:id',function*(){
 			this.checkParams('id').isInt();
 			if(this.errors){
 				this.body = this.errors;
@@ -282,9 +274,9 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 	it('there sanitizers should be to okay' , function(done){
-		var app = create_app();
 		var url ="http://www.google.com/"
-		app.post('/sanitizers',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/sanitizers',function*(){
 			this.checkBody('default').default('default');
 			this.checkBody('int_').toInt();
 			this.checkBody('float_').toFloat();

@@ -1,22 +1,16 @@
 'use strict';
 
 var koa = require('koa'),
-request = require('supertest');
+request = require('supertest'),
+appFactory = require('./appFactory.js');
 require('should');
 
 
-function create_app(){
-	var app = koa();
-	app.use(require('koa-body')());
-	app.use(require('../lib/validate.js')());
-	app.use(require('koa-router')(app));
-	return app;
-}
 
 describe('koa-validate' , function(){
 	it("bad uri decodeURIComponent should not to be ok" , function(done){
-		var app = create_app();
-		app.post('/decodeURIComponent',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/decodeURIComponent',function*(){
 			this.checkBody('uri').decodeURIComponent();
 			if(this.errors) {
 				this.status=500;
@@ -30,8 +24,8 @@ describe('koa-validate' , function(){
 		.expect(500 , done);
 	});
 	it("bad uri decodeURI should not to be ok" , function(done){
-		var app = create_app();
-		app.post('/decodeURI',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/decodeURI',function*(){
 			this.checkBody('uri').decodeURI();
 			if(this.errors) {
 				this.status=500;
@@ -45,8 +39,8 @@ describe('koa-validate' , function(){
 		.expect(500 , done);
 	});
 	it("bad base64 string should not to be ok" , function(done){
-		var app = create_app();
-		app.post('/decodeBase64',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/decodeBase64',function*(){
 			this.checkBody('base64').decodeURIComponent();
 			if(this.errors) {
 				this.status=500;
@@ -60,8 +54,8 @@ describe('koa-validate' , function(){
 		.expect(500 , done);
 	});
 	it("bad int string should not to be ok" , function(done){
-		var app = create_app();
-		app.post('/toInt',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/toInt',function*(){
 			this.checkBody('v').toInt();
 			if(this.errors) {
 				this.status=500;
@@ -76,8 +70,8 @@ describe('koa-validate' , function(){
 	});
 
 	it("0 len should be ok" , function(done){
-		var app = create_app();
-		app.post('/len',function*(){
+		var app = appFactory.create(1);
+		app.router.post('/len',function*(){
 			this.checkBody('v').len(0,1);
 			if(this.errors) {
 				this.status=500;

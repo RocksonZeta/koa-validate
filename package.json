@@ -4,7 +4,7 @@
   "description": "A koa params validate middleware.",
   "main": "lib/validate.js",
   "scripts": {
-    "test": "mocha -R spec --require should --harmony test/ --bail",
+    "test": "mocha --harmony --require should --reporter spec",
     "test-cov": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- -u exports --require should  test/ --bail",
     "test-travis": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -u exports --require should test/ --bail"
   },
@@ -23,8 +23,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.0.0",
-    "validator": "^3.22.1"
+    "debug": "^2.2.0",
+    "validator": "^5.2.0"
   },
   "devDependencies": {
     "koa": "*",
@@ -35,7 +35,7 @@
     "supertest": "^0.13.0",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
-    "istanbul-harmony": "*"
+    "istanbul-harmony": "^0.3.16"
   },
   "engines": {
     "node": ">= 0.11.9"
