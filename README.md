@@ -175,7 +175,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 - **check(fn,tip,scope)** - if fn return `false` then check failed.fn format `function(value,key,requestParams):boolean`
 - **filter(fn,scope)** - filter the value if value is array.fn format `function(value,index,key,requestParams):boolean`
 - **get(index)** - change the value to the specified index value
-- **first()** - get the first value
+- **first()** - get the first value!
 
 ### FileValidator:
 
