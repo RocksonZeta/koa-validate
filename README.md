@@ -1,8 +1,8 @@
 koa-validate
 ============
 
-[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate)
-[![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png?branch=master)](https://coveralls.io/r/RocksonZeta/koa-validate?branch=master)
+[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=1.0)](https://travis-ci.org/RocksonZeta/koa-validate)
+[![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png?branch=master)](https://coveralls.io/r/RocksonZeta/koa-validate?branch=1.0)
 [![NPM version](https://badge.fury.io/js/koa-validate.svg)](http://badge.fury.io/js/koa-validate)
 [![Dependency Status](https://david-dm.org/RocksonZeta/koa-validate.svg)](https://david-dm.org/RocksonZeta/koa-validate)
 
@@ -23,7 +23,7 @@ var app = koa();
 var router = require('koa-router')();
 
 app.use(require('koa-body')());
-app.use(require('koa-validate')());
+app.use(require('koa-validate')(app));
 app.use(router.routes()).use(router.allowedMethods());
 router.post('/signup', function * () {
 	//optional() means this param may not in the params.
