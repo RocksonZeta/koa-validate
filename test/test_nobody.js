@@ -18,7 +18,7 @@ describe('koa-validate' , function(){
 		});
 		var req = request(app.listen());
 		req.post('/nobody')
-		.send({})
+		.send()
 		.expect(500 , done);
 	});
 

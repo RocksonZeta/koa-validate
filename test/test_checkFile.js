@@ -9,7 +9,7 @@ require('should');
 
 describe('koa-validate' , function(){
 	// this.timeout(100000);
-	it("these upload should be to ok" , function(done){
+	it("file check ok" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/upload',function*(){
 			this.checkFile('empty').empty();
@@ -46,7 +46,7 @@ describe('koa-validate' , function(){
 		.expect('ok' , done);
 	});
 
-	it("these upload file should be failed" , function(done){
+	it("file check not ok" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/upload',function*(){
 			this.checkFile('empty').notEmpty();

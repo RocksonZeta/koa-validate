@@ -7,7 +7,7 @@ require('should');
 
 describe('koa-validate' , function(){
 	it("these validates should be to ok" , function(done){
-		var app = appFactory.create();
+		var app = appFactory.create(1);
 		app.router.post('/validate',function*(){
 			this.checkBody('optional').optional().len(3,20);
 			this.checkBody('name').notEmpty().len(3,20);
@@ -62,12 +62,19 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
+			this.checkBody('currency').isCurrency();
+			this.checkBody('dataUri').isDataURI();
+			this.checkBody('mobilePhone').isMobilePhone(null,"zh-CN");
+			this.checkBody('iso8601').isISO8601();
+			this.checkBody('mac').isMACAddress();
+			this.checkBody('isin').isISIN();
+			this.checkBody('fqdn').isFQDN();
 			if(this.errors){
 				this.body = this.errors;
 				 return;
 			}
 			if(8 !== this.request.body.age){
-					this.body= 'failed';
+				this.body= 'failed';
 			}
 			this.body= 'ok';
 		});
@@ -120,7 +127,14 @@ describe('koa-validate' , function(){
 			fw:"宽字节",
 			hw:"a字节",
 			vw:"v多字节",
-			sp:'ABC千𥧄1-2-3'
+			sp:'ABC千𥧄1-2-3',
+			currency:"$12",
+			dataUri:"data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E",
+			mobilePhone:"13800000000",
+			iso8601:"2004-05-03",
+			mac:"C8:3A:35:CC:ED:80",
+			isin:"US0378331005",
+			fqdn:"www.google.com",
 		})
 		.expect(200)
 		.expect('ok' ,done);
@@ -178,7 +192,6 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			console.log(this.errors)
 			if(this.errors.length === 49){
 				this.body = this.errors;
 				this.body = 'ok';

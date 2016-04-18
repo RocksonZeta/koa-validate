@@ -1,12 +1,12 @@
 {
   "name": "koa-validate",
-  "version": "0.2.11",
+  "version": "1.0.0",
   "description": "A koa params validate middleware.",
-  "main": "lib/validate.js",
+  "main": "validate.js",
   "scripts": {
-    "test": "mocha --harmony --require should --reporter spec",
-    "test-cov": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- -u exports --require should  test/ --bail",
-    "test-travis": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -u exports --require should test/ --bail"
+    "test": "NODE_ENV=test mocha --harmony --require should --reporter spec",
+    "test-cov": "NODE_ENV=test node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --require should",
+    "test-travis": "NODE_ENV=test node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --require should"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^2.2.0",
+    "json-path": "^0.1.3",
     "validator": "^5.2.0"
   },
   "devDependencies": {
@@ -35,7 +36,7 @@
     "supertest": "^0.13.0",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
-    "istanbul-harmony": "^0.3.16"
+    "istanbul-harmony": "0"
   },
   "engines": {
     "node": ">= 0.11.9"

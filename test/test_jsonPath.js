@@ -41,7 +41,7 @@ appFactory = require('./appFactory.js');
 require('should');
 
 describe('koa-validate' , function(){
-	it("nobody to check" , function(done){
+	it("json path basic" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/json',function*(){
 			this.checkBody('/').notEmpty();
