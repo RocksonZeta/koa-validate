@@ -87,6 +87,7 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 - **addError(tip)** - add an error to validator errors.
 - **hasError()** - check if validator has errors.
+- **value** - the value of current validator.
 
 ### Validators:
 `options`,`version` or `locale` please see [validator](https://github.com/chriso/validator.js)
