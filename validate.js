@@ -50,9 +50,9 @@ module.exports = function(app) {
 		var files = this.request.body.files;
 		return new FileValidator(this, key ,files&&files[key],!!(files&&files[key]) , this.request.body , deleteOnCheckFailed);
 	};
-	return function* (next) {
-		yield next;
-	};
+	// return function* (next) {
+	// 	yield next;
+	// };
 
 };
 

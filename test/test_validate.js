@@ -192,7 +192,14 @@ describe('koa-validate' , function(){
 			this.checkBody('hw').isHalfWidth();
 			this.checkBody('vw').isVariableWidth();
 			this.checkBody('sp').isSurrogatePair();
-			if(this.errors.length === 49){
+			this.checkBody('currency').isCurrency();
+			this.checkBody('dataUri').isDataURI();
+			this.checkBody('mobilePhone').isMobilePhone(null,"zh-CN");
+			this.checkBody('iso8601').isISO8601();
+			this.checkBody('mac').isMACAddress();
+			this.checkBody('isin').isISIN();
+			this.checkBody('fqdn').isFQDN();
+			if(this.errors.length === 56){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -246,7 +253,14 @@ describe('koa-validate' , function(){
 			fw:"43",
 			hw:"你好",
 			vw:"aa",
-			sp:'fdfd'
+			sp:'fdfd',
+			currency:"#12",
+			dataUri:"hello world",
+			mobilePhone:"12000000000",
+			iso8601:"2004503",
+			mac:"C8:3A:35:CC:ED:8Z",
+			isin:"hello",
+			fqdn:"http://www.x.com",
 		})
 		.expect(200)
 		.expect('ok' ,done);
