@@ -21,9 +21,9 @@ $ npm install koa-validate --save
 var koa = require('koa');
 var app = koa();
 var router = require('koa-router')();
+require('koa-validate')(app);
 
-app.use(require('koa-body')());
-app.use(require('koa-validate')(app));
+app.use(require('koa-body')({multipart:true , formidable:{keepExtensions:true}}));
 app.use(router.routes()).use(router.allowedMethods());
 router.post('/signup', function * () {
 	//optional() means this param may not in the params.
