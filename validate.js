@@ -1,5 +1,5 @@
 'use strict';
-var debug = require('debug')('koa-validate'),
+var util = require('util'),
 fs = require('fs'),
 jpath = require('json-path'),
 path = require('path');
@@ -19,8 +19,6 @@ function getValue(obj, key, transFn){
 	return obj[key]
 }
 module.exports = function(app) {
-	debug('use koa-validate');
-
 	app.context.checkQuery = function(key,transFn) {
 		return new Validator(this, key, getValue(this.request.query,key,transFn), key in this.request.query,this.request.query);
 	};
@@ -60,7 +58,6 @@ module.exports = function(app) {
 var v = require('validator');
 
 function Validator(context, key, value, exists, params , goOn) {
-	debug('validate for %s %s', key, value);
 	this.params = params;
 	this.context = context;
 	this.key = key;
@@ -75,7 +72,6 @@ function Validator(context, key, value, exists, params , goOn) {
 module.exports.Validator = Validator;
 //Validators
 Validator.prototype.addError = function(tip) {
-	debug('validate for %s %s failed.',this.key, this.value);
 	this.goOn = false;
 	if(this.value && this instanceof FileValidator ){
 		this.value.goOn = false;
@@ -343,7 +339,7 @@ Validator.prototype.isUUID = function(tip,ver) {
 	return this;
 };
 Validator.prototype.isDate = function(tip) {
-	if (this.goOn && !v.isDate(this.value)) {
+	if (this.goOn && !util.isDate(this.value)  && !v.isDate(this.value)) {
 		this.addError(tip || this.key + " is not a date format.");
 	}
 	return this;
@@ -659,8 +655,8 @@ Validator.prototype.check = function(fn ,tip, scope) {
 	return this;
 }
 Validator.prototype.get = function(index) {
-	if (!this.hasError()&&this.value) {
-		this.value = this.value[index]
+	if (this.value) {
+		this.value = this.value[index||0]
 	}
 	return this;
 };
@@ -680,10 +676,31 @@ Validator.prototype.filter = function(cb,scope) {
 	return this;
 };
 
+Validator.prototype.type = function(t,tip) {
+	if(this.value){
+		if('boolean'==t || 'string'==t|| 'number' == t || 'object' == t || 'undefined' ==t){
+			if(t!=typeof(this.value)) this.addError(tip|| this.key+" is not "+t+"");
+		}else if ('array' == t){
+			if(!util.isArray(this.value)) this.addError(tip|| this.key+" is not array");
+		}else if ('date' == t){
+			if(!util.isDate(this.value)) this.addError(tip|| this.key+" is not date.");
+		}else if ('null' == t){
+			if(!util.isNull(this.value)) this.addError(tip|| this.key+" is not null.");
+		}else if ('nullorundefined' == t.toLowerCase()){
+			if(!util.isNullOrUndefined(this.value)) this.addError(tip|| this.key+" is not primitive type.");
+		}else if ('primitive' == t){
+			if(!util.isPrimitive(this.value)) this.addError(tip|| this.key+" is not primitive type.");
+		}else{
+			console.warn("not support this type check,type:'"+t+"'")
+		}
+	}
+	return this;
+};
+
 function coFsExists(file){
 	return function(done){
 		fs.exists(file,function(x){
-			return done(null , x);
+			return done(null , x);		
 		});
 	};
 }
