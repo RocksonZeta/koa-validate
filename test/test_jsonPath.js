@@ -6,7 +6,8 @@ var data = {
       { category: "reference",
         author: "Nigel Rees",
         title: "Sayings of the Century",
-        price: 8.95
+        price: 8.95,
+        publishDate:"2015-01-01"
       },
       { category: "fiction",
         author: "Evelyn Waugh",
@@ -62,4 +63,47 @@ describe('koa-validate' , function(){
 		.expect(200 , done);
 	});
 
+});
+
+describe('koa-validate type' , function(){
+  it("type check" , function(done){
+    var app = appFactory.create(1);
+    app.router.post('/json',function*(){
+      this.checkBody('/').notEmpty();
+      this.checkBody('/store/book[0]/price').get(0).type('number').type("primitive")
+      this.checkBody('/store/book[0]/price').get(0).type('hello') // should warn
+      this.checkBody('#/store/book[0]/category').first().type('string');
+      this.checkBody('/store/book[*]/price').type('array')
+      this.checkBody('/store/book[0]/publishDate').get(0).toDate().type('date').type('object')
+      if(this.errors) {
+        this.status=500;
+      }else{
+        this.status=200;
+      }
+    });
+    var req = request(app.listen());
+    req.post('/json')
+    .send(data)
+    .expect(200 , done);
+  });
+it("type fail check" , function(done){
+    var app = appFactory.create(1);
+    app.router.post('/json',function*(){
+      this.checkBody('/').type('null');
+      this.checkBody('/store/book[0]/price').get(0).type('string');
+      this.checkBody('#/store/book[0]/category').first().type('null');
+      this.checkBody('/store/book[*]/price').type('nullorundefined')
+      this.checkBody('/store/book[0]/publishDate').first().toDate().type('array')
+      console.log(this.errors)
+      if(this.errors && 5==this.errors.length) {
+        this.status=200;
+      }else{
+        this.status=500;
+      }
+    });
+    var req = request(app.listen());
+    req.post('/json')
+    .send(data)
+    .expect(200 , done);
+  });
 });
