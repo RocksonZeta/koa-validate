@@ -199,7 +199,8 @@ describe('koa-validate' , function(){
 			this.checkBody('mac').isMACAddress();
 			this.checkBody('isin').isISIN();
 			this.checkBody('fqdn').isFQDN();
-			if(this.errors.length === 56){
+			this.checkBody('fqdn1').isFQDN();
+			if(this.errors.length === 57){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
