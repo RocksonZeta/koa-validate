@@ -54,6 +54,10 @@ module.exports = function(app) {
 
 };
 
+function isString(s) {
+	if(null == s)return false;
+	return 'string' == typeof(s)?true:false
+}
 
 var v = require('validator');
 
@@ -148,13 +152,13 @@ Validator.prototype.ensure = function(assertion, tip, shouldBail) {
 };
 
 Validator.prototype.isInt = function(tip) {
-	if (this.goOn&& ("number" != typeof this.value && !v.isInt(this.value))) {
+	if (this.goOn&& ("number" != typeof this.value && (!isString(this.value) || !v.isInt(this.value)))) {
 		this.addError(tip || this.key + " is not integer.");
 	}
 	return this;
 };
 Validator.prototype.isFloat = function(tip) {
-	if (this.goOn && ("number" != typeof this.value && !v.isFloat(this.value))) {
+	if (this.goOn && ("number" != typeof this.value && (!isString(this.value) ||!v.isFloat(this.value)))) {
 		this.addError(tip || this.key + " is not float.");
 	}
 	return this;
@@ -227,92 +231,92 @@ Validator.prototype.le = function(l, tip) {
 	return this;
 };
 Validator.prototype.contains = function(s, tip) {
-	if (this.goOn && !v.contains(this.value,s)) {
+	if (this.goOn && (!isString(this.value) ||!v.contains(this.value,s))) {
 		this.addError(tip || this.key + " is must contain " + s + ".");
 	}
 	return this;
 };
 Validator.prototype.notContains = function(s, tip) {
-	if (this.goOn && v.contains(this.value,s)) {
+	if (this.goOn && (!isString(this.value) ||v.contains(this.value,s))) {
 		this.addError(tip || this.key + " is must not contain " + s + ".");
 	}
 	return this;
 };
 Validator.prototype.isEmail = function(tip,options) {
-	if (this.goOn && !v.isEmail(this.value,options)) {
+	if (this.goOn && (!isString(this.value) ||!v.isEmail(this.value,options))) {
 		this.addError(tip || this.key + " is not email format.");
 	}
 	return this;
 };
 Validator.prototype.isUrl = function(tip,options) {
-	if (this.goOn && !v.isURL(this.value,options)) {
+	if (this.goOn && (!isString(this.value) ||!v.isURL(this.value,options))) {
 		this.addError(tip || this.key + " is not url format.");
 	}
 	return this;
 };
 Validator.prototype.isIp = function(tip,version) {
-	if (this.goOn && !v.isIP(this.value,version)) {
+	if (this.goOn && (!isString(this.value) ||!v.isIP(this.value,version))) {
 		this.addError(tip || this.key + " is not ip format.");
 	}
 	return this;
 };
 Validator.prototype.isAlpha = function(tip,locale) {
-	if (this.goOn && !v.isAlpha(this.value,locale)) {
+	if (this.goOn && (!isString(this.value) ||!v.isAlpha(this.value,locale))) {
 		this.addError(tip || this.key + " is not an alpha string.");
 	}
 	return this;
 };
 Validator.prototype.isNumeric = function(tip) {
-	if (this.goOn && !v.isNumeric(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isNumeric(this.value))) {
 		this.addError(tip || this.key + " is  not numeric.");
 	}
 	return this;
 };
 
 Validator.prototype.isAlphanumeric = function(tip,locale) {
-	if (this.goOn && !v.isAlphanumeric(this.value,locale)) {
+	if (this.goOn && (!isString(this.value) ||!v.isAlphanumeric(this.value,locale))) {
 		this.addError(tip || this.key + " is not an aphanumeric string.");
 	}
 	return this;
 };
 Validator.prototype.isBase64 = function(tip) {
-	if (this.goOn && !v.isBase64(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isBase64(this.value))) {
 		this.addError(tip || this.key + " is not a base64 string.");
 	}
 	return this;
 };
 Validator.prototype.isHexadecimal = function(tip) {
-	if (this.goOn && !v.isHexadecimal(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isHexadecimal(this.value))) {
 		this.addError(tip || this.key + " is not a hexa decimal string.");
 	}
 	return this;
 };
 Validator.prototype.isHexColor = function(tip) {
-	if (this.goOn && !v.isHexColor(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isHexColor(this.value))) {
 		this.addError(tip || this.key + " is  not hex color format.");
 	}
 	return this;
 };
 Validator.prototype.isLowercase = function(tip) {
-	if (this.goOn && !v.isLowercase(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isLowercase(this.value))) {
 		this.addError(tip || this.key + " is not a lowwer case string");
 	}
 	return this;
 };
 Validator.prototype.isUppercase = function(tip) {
-	if (this.goOn && !v.isUppercase(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isUppercase(this.value))) {
 		this.addError(tip || this.key + " is not a upper case string.");
 	}
 	return this;
 };
 Validator.prototype.isDivisibleBy = function(n, tip) {
-	if (this.goOn && !v.isDivisibleBy(this.value, n)) {
+	if (this.goOn && (!isString(this.value) ||!v.isDivisibleBy(this.value, n))) {
 		this.addError(tip || this.key + " can not divide by" + n + ".");
 	}
 	return this;
 };
 Validator.prototype.isNull = function(tip) {
-	if (this.goOn && !v.isNull(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isNull(this.value))) {
 		this.addError(tip || this.key + " is not null.");
 	}
 	return this;
@@ -333,13 +337,13 @@ Validator.prototype.isByteLength = function(min, max,charset,tip) {
 };
 Validator.prototype.byteLength = Validator.prototype.isByteLength;
 Validator.prototype.isUUID = function(tip,ver) {
-	if (this.goOn && !v.isUUID(this.value,ver)) {
+	if (this.goOn && (!isString(this.value) ||!v.isUUID(this.value,ver))) {
 		this.addError(tip || this.key + " is not a UUID format.");
 	}
 	return this;
 };
 Validator.prototype.isDate = function(tip) {
-	if (this.goOn && !util.isDate(this.value)  && !v.isDate(this.value)) {
+	if (this.goOn && !util.isDate(this.value)  && (!isString(this.value) ||!v.isDate(this.value))) {
 		this.addError(tip || this.key + " is not a date format.");
 	}
 	return this;
@@ -353,111 +357,111 @@ Validator.prototype.isTime = function(tip) {
 };
 
 Validator.prototype.isAfter = function(d, tip) {
-	if (this.goOn && !v.isAfter(this.value, d)) {
+	if (this.goOn && (!isString(this.value) ||!v.isAfter(this.value, d))) {
 		this.addError(tip || this.key + " must after " + d + ".");
 	}
 	return this;
 };
 Validator.prototype.isBefore = function(d, tip) {
-	if (this.goOn && !v.isBefore(this.value, d)) {
+	if (this.goOn && (!isString(this.value) ||!v.isBefore(this.value, d))) {
 		this.addError(tip || this.key + " must before " + d + ".");
 	}
 	return this;
 };
 Validator.prototype.isCreditCard = function(tip) {
-	if (this.goOn && !v.isCreditCard(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isCreditCard(this.value))) {
 		this.addError(tip || this.key + " is not credit card format.");
 	}
 	return this;
 };
 Validator.prototype.isISBN = function(tip,version) {
-	if (this.goOn && !v.isISBN(this.value,version)) {
+	if (this.goOn && (!isString(this.value) ||!v.isISBN(this.value,version))) {
 		this.addError(tip || this.key + " is not a ISBN format.");
 	}
 	return this;
 };
 Validator.prototype.isJSON = function(tip) {
-	if (this.goOn && !v.isJSON(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isJSON(this.value))) {
 		this.addError(tip || this.key + " is not a json format.");
 	}
 	return this;
 };
 
 Validator.prototype.isMultibyte = function(tip) {
-	if (this.goOn && !v.isMultibyte(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isMultibyte(this.value))) {
 		this.addError(tip || this.key + " is not a multibyte string.");
 	}
 	return this;
 };
 Validator.prototype.isAscii = function(tip) {
-	if (this.goOn && !v.isAscii(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isAscii(this.value))) {
 		this.addError(tip || this.key + " is not a ascii string.");
 	}
 	return this;
 };
 Validator.prototype.isFullWidth = function(tip) {
-	if (this.goOn && !v.isFullWidth(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isFullWidth(this.value))) {
 		this.addError(tip || this.key + " is not a full width string.");
 	}
 	return this;
 };
 Validator.prototype.isHalfWidth = function(tip) {
-	if (this.goOn && !v.isHalfWidth(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isHalfWidth(this.value))) {
 		this.addError(tip || this.key + " is not a half width string.");
 	}
 	return this;
 };
 Validator.prototype.isVariableWidth = function(tip) {
-	if (this.goOn && !v.isVariableWidth(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isVariableWidth(this.value))) {
 		this.addError(tip || this.key + " is not a variable width string.");
 	}
 	return this;
 };
 Validator.prototype.isSurrogatePair = function(tip) {
-	if (this.goOn && !v.isSurrogatePair(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isSurrogatePair(this.value))) {
 		this.addError(tip || this.key + " is not a surrogate pair string.");
 	}
 	return this;
 };
 Validator.prototype.isCurrency = function(tip,options) {
-	if (this.goOn && !v.isCurrency(this.value,options)) {
+	if (this.goOn && (!isString(this.value) ||!v.isCurrency(this.value,options))) {
 		this.addError(tip || this.key + " is not a currency format.");
 	}
 	return this;
 };
 Validator.prototype.isDataURI = function(tip) {
-	if (this.goOn && !v.isDataURI(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isDataURI(this.value))) {
 		this.addError(tip || this.key + " is not a data uri format.");
 	}
 	return this;
 };
 Validator.prototype.isMobilePhone = function(tip,locale) {
-	if (this.goOn && !v.isMobilePhone(this.value,locale)) {
+	if (this.goOn && (!isString(this.value) ||!v.isMobilePhone(this.value,locale))) {
 		this.addError(tip || this.key + " is not a mobile phone format.");
 	}
 	return this;
 };
 Validator.prototype.isISO8601 = function(tip) {
-	if (this.goOn && !v.isISO8601(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isISO8601(this.value))) {
 		this.addError(tip || this.key + " is not a ISO8601 string format.");
 	}
 	return this;
 };
 Validator.prototype.isMACAddress = function(tip) {
-	if (this.goOn && !v.isMACAddress(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isMACAddress(this.value))) {
 		this.addError(tip || this.key + " is not a MAC address format.");
 	}
 	return this;
 };
 
 Validator.prototype.isISIN = function(tip) {
-	if (this.goOn && !v.isISIN(this.value)) {
+	if (this.goOn && (!isString(this.value) ||!v.isISIN(this.value))) {
 		this.addError(tip || this.key + " is not a ISIN format.");
 	}
 	return this;
 };
 Validator.prototype.isFQDN = function(tip,options) {
-	if (this.goOn && !v.isFQDN(this.value,options)) {
+	if (this.goOn && (!isString(this.value) ||!v.isFQDN(this.value,options))) {
 		this.addError(tip || this.key + " is not a fully qualified domain name format.");
 	}
 	return this;
