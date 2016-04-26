@@ -1,8 +1,8 @@
 koa-validate
 ============
 
-[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=1.0)](https://travis-ci.org/RocksonZeta/koa-validate)
-[![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png?branch=master)](https://coveralls.io/r/RocksonZeta/koa-validate?branch=1.0)
+[![Build Status](https://travis-ci.org/RocksonZeta/koa-validate.svg?branch=master)](https://travis-ci.org/RocksonZeta/koa-validate)
+[![Coverage Status](https://coveralls.io/repos/RocksonZeta/koa-validate/badge.png?branch=master)](https://coveralls.io/r/RocksonZeta/koa-validate?branch=master)
 [![NPM version](https://badge.fury.io/js/koa-validate.svg)](http://badge.fury.io/js/koa-validate)
 [![Dependency Status](https://david-dm.org/RocksonZeta/koa-validate.svg)](https://david-dm.org/RocksonZeta/koa-validate)
 
