@@ -94,7 +94,8 @@ when use `app.use(require('koa-validate')())` ,the request context will bind the
 
 - **optional()** - the param may not in the params.if the param not exists,it has no error,no matter whether have other checker or not.
 - **empty([tip])** - the params can be a empty string.
-- **notEmpty([tip])** - check if the param is no empty.
+- **notEmpty([tip])** - check if the param is not empty.
+- **notBlank([tip])** - check if the param is not blank,use /^\s*$/gi reg to check.
 - **match(pattern,[tip])** - pattern must be a RegExp instance ,eg. /abc/i
 - **notMatch(pattern,[tip])** - pattern must be a RegExp instance ,eg. /xyz/i
 - **ensure(assertion, [tip], [shouldBail])** if assertion is false,the asserting failed.
