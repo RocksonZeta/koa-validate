@@ -7,7 +7,8 @@ var data = {
         author: "Nigel Rees",
         title: "Sayings of the Century",
         price: 8.95,
-        publishDate:"2015-01-01"
+        publishDate:"2015-01-01",
+        disabled:false
       },
       { category: "fiction",
         author: "Evelyn Waugh",
@@ -46,12 +47,14 @@ describe('koa-validate' , function(){
 		var app = appFactory.create(1);
 		app.router.post('/json',function*(){
 			this.checkBody('/').notEmpty();
-			this.checkBody('/store/book[0]/price').get(0).eq(8.95);
+      this.checkBody('/store/book[0]/price').get(0).eq(8.95);
+			this.checkBody('/store/book[0]/disabled').first().notEmpty().toBoolean()
 			this.checkBody('#/store/book[0]/category').first().trim().eq('reference');
 			this.checkBody('/store/book[*]/price').filter(function(v,k,o){
 				return v>10
 			}).first().gt(10)
 			if(this.errors) {
+        // console.log(this.errors)
 				this.status=500;
 			}else{
 				this.status=200;
@@ -94,7 +97,7 @@ it("type fail check" , function(done){
       this.checkBody('#/store/book[0]/category').first().type('null');
       this.checkBody('/store/book[*]/price').type('nullorundefined')
       this.checkBody('/store/book[0]/publishDate').first().toDate().type('array')
-      console.log(this.errors)
+      // console.log(this.errors)
       if(this.errors && 5==this.errors.length) {
         this.status=200;
       }else{

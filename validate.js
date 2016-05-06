@@ -98,7 +98,7 @@ Validator.prototype.optional = function() {
 	return this;
 };
 Validator.prototype.notEmpty = function(tip) {
-	if (this.goOn && !this.value) {
+	if (this.goOn && (null==this.value||'undefined'==typeof(this.value) || ('string' == typeof(this.value) &&!this.value))) {
 		this.addError(tip || this.key + " can not be empty.");
 	}
 	return this;
@@ -108,6 +108,12 @@ Validator.prototype.empty = function() {
 		if (!this.value) {
 			this.goOn = false;
 		}
+	}
+	return this;
+};
+Validator.prototype.notBlank = function(tip) {
+	if (this.goOn && (null==this.value||'undefined'==typeof(this.value) || ('string' == typeof(this.value) &&(/^\s*$/gi).test(this.value)))) {
+		this.addError(tip || this.key + " can not be blank.");
 	}
 	return this;
 };
@@ -522,7 +528,9 @@ Validator.prototype.toUppercase = function() {
 Validator.prototype.toUp = Validator.prototype.toUppercase;
 Validator.prototype.toBoolean = function() {
 	if (!this.hasError()) {
-		this.value = this.params[this.key] = v.toBoolean(this.value);
+		if('string' == typeof(this.value)){
+			this.value = this.params[this.key] = v.toBoolean(this.value);
+		}
 	}
 	return this;
 };
@@ -668,7 +676,7 @@ Validator.prototype.first = function(index) {
 	return this.get(0);
 };
 Validator.prototype.filter = function(cb,scope) {
-	if (!this.hasError()&&this.value&&this.value.length>0) {
+	if (this.value&&this.value.length>0) {
 		var vs = []
 		for(var i = 0 ;i<this.value.length;i++) {
 			if(cb.call(scope||this,this.value[i],i,this.key,this.context)){

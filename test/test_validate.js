@@ -12,6 +12,7 @@ describe('koa-validate' , function(){
 			this.checkBody('optional').optional().len(3,20);
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('empty').empty();
+			this.checkBody('notBlank').notBlank();
 			this.checkBody('match').match(/^abc$/i);
 			this.checkBody('notMatch').notMatch(/^xyz$/i);
 			this.checkBody('ensure').ensure(true);
@@ -84,6 +85,7 @@ describe('koa-validate' , function(){
 		.send({
 			name:"jim",
 			empty:"",
+			notBlank:"\t h\n",
 			email:"jim@gmail.com",
 			len:"len",
 			match:"abc",
@@ -145,6 +147,7 @@ describe('koa-validate' , function(){
 		app.router.post('/validate',function*(){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('notEmpty').notEmpty();
+			this.checkBody('blank').notBlank();
 			this.checkBody('notEmpty').len(2,3);
 			this.checkBody('match').match(/^abc$/i);
 			this.checkBody('integer').isInt(/^abc$/i);
@@ -200,7 +203,7 @@ describe('koa-validate' , function(){
 			this.checkBody('isin').isISIN();
 			this.checkBody('fqdn').isFQDN();
 			this.checkBody('fqdn1').isFQDN();
-			if(this.errors.length === 57){
+			if(this.errors.length === 58){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -213,6 +216,7 @@ describe('koa-validate' , function(){
 		.send({
 			name:"j",
 			empty:"fd",
+			blank:" \n\r\f\t ",
 			email:"jim@@gmail.com",
 			len:"l",
 			len1:"length1",
@@ -309,6 +313,7 @@ describe('koa-validate' , function(){
 			this.checkBody('int_').toInt();
 			this.checkBody('float_').toFloat();
 			this.checkBody('bool').toBoolean();
+			this.checkBody('falseValue').notEmpty('value is empty').toBoolean();
 			this.checkBody('date').toDate();
 			this.checkBody('trim').trim();
 			this.checkBody('ltrim').ltrim();
@@ -347,6 +352,9 @@ describe('koa-validate' , function(){
 				this.throw(500);
 			}
 			if(true!== body.bool ){
+				this.throw(500);
+			}
+			if(false!== body.falseValue ){
 				this.throw(500);
 			}
 			if(new Date('2014-01-01').getTime() !== body.date.getTime() ){
@@ -420,6 +428,7 @@ describe('koa-validate' , function(){
 			int_:'20',
 			float_:'1.2',
 			bool:'1',
+			falseValue:'false',
 			date:'2014-01-01',
 			trim:' jim ',
 			ltrim:' jim ',
