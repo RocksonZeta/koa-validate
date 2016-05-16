@@ -74,7 +74,7 @@ app.listen(3000);
 ## API
 
 checkBody,checkQuery,checkParams will return a Validator instance.
-when use `app.use(require('koa-validate')())` ,the request context will bind the method:
+when use `require('koa-validate')(app)` ,the request context will bind the method:
 
 - **checkBody(fieldName,[transFn])** - check POST body.`,transFn` see [json-path](https://github.com/flitbit/json-path#more-power).it will not use json path if `transFn` is `false`.
 - **checkQuery(fieldName,[transFn])** - check GET query.`,transFn` see [json-path](https://github.com/flitbit/json-path#more-power).it will not use json path if `transFn` is `false`.
