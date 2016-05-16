@@ -14,14 +14,14 @@ function getValue(obj, key, transFn){
 
 function hasKey(obj, key, transFn) {
 	if((0 == key.indexOf('/') || 0 == key.indexOf('#/')) && transFn) {
-		return jpath.resolve(obj, key)
+		return (jpath.resolve(obj, key).length > 0) ? true : false
 	}
 	return key in obj
 }
 
 module.exports = function(app) {
 	app.context.checkQuery = function(key,transFn) {
-		return new Validator(this, key, getValue(this.request.query,key,transFn), key in this.request.query,this.request.query);
+		return new Validator(this, key, getValue(this.request.query,key,transFn), hasKey(this.request.query, key, transFn),this.request.query);
 	};
 	app.context.checkParams = function(key) {
 		return new Validator(this, key, this.params[key], key in this.params,this.params);
