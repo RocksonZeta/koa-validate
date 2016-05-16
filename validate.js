@@ -6,21 +6,22 @@ path = require('path');
 
 
 function getValue(obj, key, transFn){
-	if (false == transFn) {
-		return obj[key]
-	}
-	if(0 == key.indexOf('/') || 0 == key.indexOf('#/')) {
-		if(transFn) {
-			return jpath.resolve(obj, key)
-		}else {
-			return jpath.resolve(obj, key , transFn)
-		}
+	if((0 == key.indexOf('/') || 0 == key.indexOf('#/')) && transFn) {
+		return jpath.resolve(obj, key)
 	}
 	return obj[key]
 }
+
+function hasKey(obj, key, transFn) {
+	if((0 == key.indexOf('/') || 0 == key.indexOf('#/')) && transFn) {
+		return (jpath.resolve(obj, key).length > 0) ? true : false
+	}
+	return key in obj
+}
+
 module.exports = function(app) {
 	app.context.checkQuery = function(key,transFn) {
-		return new Validator(this, key, getValue(this.request.query,key,transFn), key in this.request.query,this.request.query);
+		return new Validator(this, key, getValue(this.request.query,key,transFn), hasKey(this.request.query, key, transFn),this.request.query);
 	};
 	app.context.checkParams = function(key) {
 		return new Validator(this, key, this.params[key], key in this.params,this.params);
@@ -32,10 +33,10 @@ module.exports = function(app) {
 			if(!this.errors){
 				this.errors = ['no body to check!'];
 			}
-			return new Validator(this, null, null,false, null ,false ); 
+			return new Validator(this, null, null,false, null ,false );
 		}
 		var body =  body.fields || body;	// koa-body fileds. multipart fields in body.fields
-		return new Validator(this, key,getValue(body,key,transFn), key in body , body);
+		return new Validator(this, key,getValue(body,key,transFn), hasKey(body, key, transFn), body);
 	};
 	app.context.checkFile = function(key , deleteOnCheckFailed) {
 		if('undefined' == typeof this.request.body || 'undefined' == typeof this.request.body.files ) {
@@ -712,7 +713,7 @@ Validator.prototype.type = function(t,tip) {
 function coFsExists(file){
 	return function(done){
 		fs.exists(file,function(x){
-			return done(null , x);		
+			return done(null , x);
 		});
 	};
 }
@@ -737,7 +738,7 @@ function coFsCopy(src,dst){
 		var dstSteam = fs.createWriteStream(dst);
 
 		srcStream.pipe(dstSteam);
-		srcStream.on('end', function() { 
+		srcStream.on('end', function() {
 			done();
 		});
 		srcStream.on('error', function(e) {
