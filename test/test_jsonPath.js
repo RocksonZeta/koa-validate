@@ -46,11 +46,12 @@ describe('koa-validate' , function(){
 	it("json path basic" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/json',function*(){
-			this.checkBody('/').notEmpty();
-      this.checkBody('/store/book[0]/price').get(0).eq(8.95);
-			this.checkBody('/store/book[0]/disabled').first().notEmpty().toBoolean()
-			this.checkBody('#/store/book[0]/category').first().trim().eq('reference');
-			this.checkBody('/store/book[*]/price').filter(function(v,k,o){
+			this.checkBody('/', true).notEmpty();
+      this.checkBody('/store/bicycle/color', true).exist()
+      this.checkBody('/store/book[0]/price', true).get(0).eq(8.95);
+			this.checkBody('/store/book[0]/disabled', true).first().notEmpty().toBoolean()
+			this.checkBody('#/store/book[0]/category', true).first().trim().eq('reference');
+			this.checkBody('/store/book[*]/price', true).filter(function(v,k,o){
 				return v>10
 			}).first().gt(10)
 			if(this.errors) {
@@ -72,12 +73,12 @@ describe('koa-validate type' , function(){
   it("type check" , function(done){
     var app = appFactory.create(1);
     app.router.post('/json',function*(){
-      this.checkBody('/').notEmpty();
-      this.checkBody('/store/book[0]/price').get(0).type('number').type("primitive")
-      this.checkBody('/store/book[0]/price').get(0).type('hello') // should warn
-      this.checkBody('#/store/book[0]/category').first().type('string');
-      this.checkBody('/store/book[*]/price').type('array')
-      this.checkBody('/store/book[0]/publishDate').get(0).toDate().type('date').type('object')
+      this.checkBody('/', true).notEmpty();
+      this.checkBody('/store/book[0]/price', true).get(0).type('number').type("primitive")
+      this.checkBody('/store/book[0]/price', true).get(0).type('hello') // should warn
+      this.checkBody('#/store/book[0]/category', true).first().type('string');
+      this.checkBody('/store/book[*]/price', true).type('array')
+      this.checkBody('/store/book[0]/publishDate', true).get(0).toDate().type('date').type('object')
       if(this.errors) {
         this.status=500;
       }else{
@@ -92,11 +93,11 @@ describe('koa-validate type' , function(){
 it("type fail check" , function(done){
     var app = appFactory.create(1);
     app.router.post('/json',function*(){
-      this.checkBody('/').type('null');
-      this.checkBody('/store/book[0]/price').get(0).type('string');
-      this.checkBody('#/store/book[0]/category').first().type('null');
-      this.checkBody('/store/book[*]/price').type('nullorundefined')
-      this.checkBody('/store/book[0]/publishDate').first().toDate().type('array')
+      this.checkBody('/', true).type('null');
+      this.checkBody('/store/book[0]/price', true).get(0).type('string');
+      this.checkBody('#/store/book[0]/category', true).first().type('null');
+      this.checkBody('/store/book[*]/price', true).type('nullorundefined')
+      this.checkBody('/store/book[0]/publishDate', true).first().toDate().type('array')
       // console.log(this.errors)
       if(this.errors && 5==this.errors.length) {
         this.status=200;
