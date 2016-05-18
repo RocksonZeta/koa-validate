@@ -26,6 +26,9 @@ module.exports = function(app) {
 	app.context.checkParams = function(key) {
 		return new Validator(this, key, this.params[key], key in this.params,this.params);
 	};
+	app.context.checkHeader = function(key) {
+		return new Validator(this, key, this.header[key], key in this.header,this.header);
+	};
 	app.context.checkBody = function(key,transFn) {
 		var body = this.request.body;
 
