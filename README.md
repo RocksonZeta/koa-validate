@@ -80,6 +80,7 @@ when use `require('koa-validate')(app)` ,the request context will bind the metho
 - **checkQuery(fieldName,[transFn])** - check GET query.`,transFn` see [json-path](https://github.com/flitbit/json-path#more-power).it will not use json path if `transFn` is `false`.
 - **checkParams(fieldName)** - check the params in the urls.
 - **checkFile(fieldName,[deleteOnCheckFailed])** - check the file object, if you use [koa-body](https://github.com/dlau/koa-body).this function will return `FileValidator` object. `deleteOnCheckFailed` default value is `true`
+- **checkHeader(fieldName)** - check the params in the request http header.
 
 
 ## Validator API
