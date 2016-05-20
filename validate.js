@@ -495,6 +495,9 @@ Validator.prototype.toDate = function() {
 Validator.prototype.toInt = function(tip) {
 	this.isInt(tip);
 	if (!this.hasError()) {
+		if('number' == typeof(this.value)) {
+			return this;
+		}
 		this.value = this.params[this.key] = v.toInt(this.value);
 	}
 	return this;
@@ -502,6 +505,9 @@ Validator.prototype.toInt = function(tip) {
 Validator.prototype.toFloat = function(tip) {
 	this.isFloat(tip);
 	if (!this.hasError()) {
+		if('number' == typeof(this.value)) {
+			return this;
+		}
 		this.value = this.params[this.key] = v.toFloat(this.value);
 	}
 	return this;
@@ -509,6 +515,9 @@ Validator.prototype.toFloat = function(tip) {
 Validator.prototype.toJson = function(tip) {
 	if (!this.hasError()) {
 		try{
+			if('object' == typeof(this.value)) {
+				return this;
+			}
 			this.value = this.params[this.key] = JSON.parse(this.value);
 		}catch(e){
 			this.addError(tip||'not json format');
@@ -532,6 +541,9 @@ Validator.prototype.toUppercase = function() {
 Validator.prototype.toUp = Validator.prototype.toUppercase;
 Validator.prototype.toBoolean = function() {
 	if (!this.hasError()) {
+		if('boolean' == typeof(this.value)) {
+			return this;
+		}
 		if('string' == typeof(this.value)){
 			this.value = this.params[this.key] = v.toBoolean(this.value);
 		}

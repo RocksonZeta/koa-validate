@@ -49,6 +49,7 @@ describe('koa-validate' , function(){
 			this.checkBody('/', true).notEmpty();
       this.checkBody('/store/bicycle/color', true).exist()
       this.checkBody('/store/book[0]/price', true).get(0).eq(8.95);
+      this.checkBody('/store/book[0]/price', true).get(0).isFloat().eq(8.95);
 			this.checkBody('/store/book[0]/disabled', true).first().notEmpty().toBoolean()
 			this.checkBody('#/store/book[0]/category', true).first().trim().eq('reference');
 			this.checkBody('/store/book[*]/price', true).filter(function(v,k,o){
