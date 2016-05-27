@@ -18,6 +18,13 @@ describe('koa-validate' , function(){
 			this.checkBody('ensure').ensure(true);
 			this.checkBody('ensureNot').ensureNot(false);
 			this.checkBody('integer').isInt();
+			this.checkBody('integer').isInt(null, {min:12});
+			this.checkBody('integer').isInt(null, {max:12});
+			this.checkBody('integer').isInt(null, {min:12,max:12});
+			this.checkBody('stringInteger').isInt();
+			this.checkBody('stringInteger').isInt(null, {min:12});
+			this.checkBody('stringInteger').isInt(null, {max:12});
+			this.checkBody('stringInteger').isInt(null, {min:12,max:12});
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
@@ -93,6 +100,7 @@ describe('koa-validate' , function(){
 			ensure:"",
 			ensureNot:"",
 			integer:12,
+			stringInteger:"12",
 			float_:1.23,
 			in:1,
 			eq:"eq",
@@ -150,7 +158,10 @@ describe('koa-validate' , function(){
 			this.checkBody('blank').notBlank();
 			this.checkBody('notEmpty').len(2,3);
 			this.checkBody('match').match(/^abc$/i);
-			this.checkBody('integer').isInt(/^abc$/i);
+			this.checkBody('integer').isInt();
+			this.checkBody('integer2').isInt(null, {min:101});
+			this.checkBody('integer2').isInt(null, {max:99});
+			this.checkBody('integer2').isInt(null, {min:1,max:99});
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
@@ -179,7 +190,7 @@ describe('koa-validate' , function(){
 			this.checkBody('n').isNull();
 			this.checkBody('len').isLength(3,4);
 			this.checkBody('len1').isLength(3,4);
-			this.checkBody('byteLenght').isByteLength(4,6);
+			this.checkBody('byteLength').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
 			this.checkBody('time').isTime();
 			this.checkBody('date').isDate();
@@ -203,7 +214,7 @@ describe('koa-validate' , function(){
 			this.checkBody('isin').isISIN();
 			this.checkBody('fqdn').isFQDN();
 			this.checkBody('fqdn1').isFQDN();
-			if(this.errors.length === 58){
+			if(this.errors.length === 61){
 				this.body = this.errors;
 				this.body = 'ok';
 				return ;
@@ -222,6 +233,7 @@ describe('koa-validate' , function(){
 			len1:"length1",
 			match:"xyz",
 			integer:"12a",
+			integer2:"100",
 			float_:'a1.23',
 			in:'fd',
 			eq:"neq",
@@ -244,7 +256,7 @@ describe('koa-validate' , function(){
 			up:"re",
 			div:"22",
 			n:"f",
-			byteLenght:"你",
+			byteLength:"你",
 			uuid:"c8162b90-fdda-4803-843bed5851480c86",
 			date:"2014-0807",
 			time:"24:00:00",
@@ -311,6 +323,13 @@ describe('koa-validate' , function(){
 		app.router.post('/sanitizers',function*(){
 			this.checkBody('default').default('default');
 			this.checkBody('int_').toInt();
+			this.checkBody('int_').toInt(null, 10, {min:20});
+			this.checkBody('int_').toInt(null, 10, {max:20});
+			this.checkBody('int_').toInt(null, 10, {min:20,max:20});
+			this.checkBody('octal_').toInt(null, 8);
+			this.checkBody('octal_').toInt(null, 8, {min:8});
+			this.checkBody('octal_').toInt(null, 8, {max:8});
+			this.checkBody('octal_').toInt(null, 8, {min:8,max:8});
 			this.checkBody('float_').toFloat();
 			this.checkBody('bool').toBoolean();
 			this.checkBody('falseValue').notEmpty('value is empty').toBoolean();
@@ -346,6 +365,9 @@ describe('koa-validate' , function(){
 				this.throw(500);
 			}
 			if(20 !== body.int_ ){
+				this.throw(500);
+			}
+			if(8 !== body.octal_ ){
 				this.throw(500);
 			}
 			if(1.2 !== body.float_ ){
@@ -426,6 +448,7 @@ describe('koa-validate' , function(){
 		.post('/sanitizers')
 		.send({
 			int_:'20',
+			octal_:'10',
 			float_:'1.2',
 			bool:'1',
 			falseValue:'false',
