@@ -161,8 +161,8 @@ Validator.prototype.ensure = function(assertion, tip, shouldBail) {
     return this;
 };
 
-Validator.prototype.isInt = function(tip) {
-	if (this.goOn&& ("number" != typeof this.value && (!isString(this.value) || !v.isInt(this.value)))) {
+Validator.prototype.isInt = function(tip, options) {
+	if (this.goOn&& !v.isInt(String(this.value), options)) {
 		this.addError(tip || this.key + " is not integer.");
 	}
 	return this;
@@ -492,13 +492,13 @@ Validator.prototype.toDate = function() {
 	}
 	return this;
 };
-Validator.prototype.toInt = function(tip) {
-	this.isInt(tip);
+Validator.prototype.toInt = function(tip, radix, options) {
+	this.isInt(tip, options);
 	if (!this.hasError()) {
 		if('number' == typeof(this.value)) {
 			return this;
 		}
-		this.value = this.params[this.key] = v.toInt(this.value);
+		this.value = this.params[this.key] = v.toInt(this.value, radix);
 	}
 	return this;
 };
