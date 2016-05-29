@@ -101,8 +101,8 @@ when use `require('koa-validate')(app)` ,the request context will bind the metho
 - **notMatch(pattern,[tip])** - pattern must be a RegExp instance ,eg. /xyz/i
 - **ensure(assertion, [tip], [shouldBail])** if assertion is false,the asserting failed.
 - **ensureNot(assertion, [tip], [shouldBail])** if assertion is true,the asserting failed.
-- **isInt([tip])** - check if the param is integer.
-- **isFloat([tip])** - check if the param is float.
+- **isInt([tip],[options])** - check if the param is integer.
+- **isFloat([tip],[options])** - check if the param is float.
 - **isLength(min,[max],[tip])** - check the param length.
 - **len(min,[max],[tip])** - the abbreviation of isLength.
 - **isIn(arr,[tip])** - check if the param is in the array.
@@ -156,7 +156,7 @@ when use `require('koa-validate')(app)` ,the request context will bind the metho
 
 - **default(value)** - if the param not exits or is an empty string, it will take the default value.
 - **toDate()** - convert param  to js Date object.
-- **toInt([tip])** - convert param to integer.
+- **toInt([tip],[radix],[options])** - convert param to integer.`radix` for `toInt`,`options` for `isInt`.
 - **toFloat([tip])** - convert param to float.
 - **toLowercase()** - convert param to lowercase.
 - **toLow()** - same as toLowercase.

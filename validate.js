@@ -167,8 +167,8 @@ Validator.prototype.isInt = function(tip, options) {
 	}
 	return this;
 };
-Validator.prototype.isFloat = function(tip) {
-	if (this.goOn && ("number" != typeof this.value && (!isString(this.value) ||!v.isFloat(this.value)))) {
+Validator.prototype.isFloat = function(tip,options) {
+	if (this.goOn && !v.isFloat(String(this.value), options)) {
 		this.addError(tip || this.key + " is not float.");
 	}
 	return this;
