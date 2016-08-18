@@ -862,7 +862,8 @@ FileValidator.prototype.fileNameMatch = function(reg,tip){
 	return this;
 };
 FileValidator.prototype.suffixIn = function(arr,tip){
-	if (this.goOn && (!this.value || -1==arr.indexOf(-1==this.value.name.lastIndexOf('.')?"":this.value.name.substring(this.value.name.lastIndexOf('.')+1)))) {
+	arr = arr.map(function(ext) { return (ext + '').toLowerCase(); });
+	if (this.goOn && (!this.value || -1==arr.indexOf(-1==this.value.name.lastIndexOf('.')?"":this.value.name.substring(this.value.name.lastIndexOf('.')+1).toLowerCase()))) {
 		this.addError(tip || "file "+ (this.value && this.value.name||this.key) + " is bad file type.");
 		if(this.deleteOnCheckFailed){
 			delFileAsync(this.value &&this.value.path);

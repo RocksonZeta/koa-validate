@@ -15,6 +15,7 @@ describe('koa-validate' , function(){
 			this.checkFile('empty').empty();
 			// this.checkFile('file1').empty().contentTypeMatch(/^text/);
 			this.checkFile('file').empty().contentTypeMatch(/^application\//);
+			this.checkFile('file3').notEmpty().suffixIn(['ext']);
 			yield this.checkFile('file1').empty().move(__dirname+"/temp", function(file , context){
 			});
 			this.checkFile('file').notEmpty();
@@ -41,6 +42,7 @@ describe('koa-validate' , function(){
 		.attach('file',__dirname+"/test_checkFile.js")
 		.attach('file1',__dirname+"/test_checkFile.js")
 		// .attach('file2',__dirname+"/test_checkFile.js")
+		.attach('file3',__dirname+"/file.EXT")
 		.send({type:"js"})
 		.expect(200)
 		.expect('ok' , done);
