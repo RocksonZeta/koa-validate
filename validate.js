@@ -487,14 +487,14 @@ Validator.prototype.default = function(d) {
 };
 Validator.prototype.toDate = function() {
 	this.isDate();
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.toDate(this.value);
 	}
 	return this;
 };
 Validator.prototype.toInt = function(tip, radix, options) {
 	this.isInt(tip, options);
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		if('number' == typeof(this.value)) {
 			return this;
 		}
@@ -504,7 +504,7 @@ Validator.prototype.toInt = function(tip, radix, options) {
 };
 Validator.prototype.toFloat = function(tip) {
 	this.isFloat(tip);
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		if('number' == typeof(this.value)) {
 			return this;
 		}
@@ -513,7 +513,7 @@ Validator.prototype.toFloat = function(tip) {
 	return this;
 };
 Validator.prototype.toJson = function(tip) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		try{
 			if('object' == typeof(this.value)) {
 				return this;
@@ -526,21 +526,21 @@ Validator.prototype.toJson = function(tip) {
 	return this;
 };
 Validator.prototype.toLowercase = function() {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = this.value.toLowerCase();
 	}
 	return this;
 };
 Validator.prototype.toLow = Validator.prototype.toLowercase;
 Validator.prototype.toUppercase = function() {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = this.value.toUpperCase();
 	}
 	return this;
 };
 Validator.prototype.toUp = Validator.prototype.toUppercase;
 Validator.prototype.toBoolean = function() {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		if('boolean' == typeof(this.value)) {
 			return this;
 		}
@@ -551,55 +551,55 @@ Validator.prototype.toBoolean = function() {
 	return this;
 };
 Validator.prototype.trim = function(c) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.trim(this.value,c);
 	}
 	return this;
 };
 Validator.prototype.ltrim = function(c) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.ltrim(this.value,c);
 	}
 	return this;
 };
 Validator.prototype.rtrim = function(c) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.rtrim(this.value,c);
 	}
 	return this;
 };
 Validator.prototype.escape = function() {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.escape(this.value);
 	}
 	return this;
 };
 Validator.prototype.stripLow = function(nl) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.stripLow(this.value, nl);
 	}
 	return this;
 };
 Validator.prototype.whitelist = function(s) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.whitelist(this.value,s);
 	}
 	return this;
 };
 Validator.prototype.blacklist = function(s) {
-	if (!this.hasError()) {
+	if (this.goOn && !this.hasError()) {
 		this.value = this.params[this.key] = v.blacklist(this.value,s);
 	}
 	return this;
 };
 Validator.prototype.encodeURI = function() {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = encodeURI(this.value);
 	}
 	return this;
 };
 Validator.prototype.decodeURI = function(tip) {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		try{
 			this.value = this.params[this.key] = decodeURI(this.value);
 		}catch(e){
@@ -609,13 +609,13 @@ Validator.prototype.decodeURI = function(tip) {
 	return this;
 };
 Validator.prototype.encodeURIComponent = function() {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = encodeURIComponent(this.value);
 	}
 	return this;
 };
 Validator.prototype.decodeURIComponent = function(tip) {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		try{
 			this.value = this.params[this.key] = decodeURIComponent(this.value);
 		}catch(e){
@@ -625,13 +625,13 @@ Validator.prototype.decodeURIComponent = function(tip) {
 	return this;
 };
 Validator.prototype.replace = function(a,b) {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = this.value.replace(a,b);
 	}
 	return this;
 };
 Validator.prototype.encodeBase64 = function() {
-	if (!this.hasError()&&this.value) {
+	if (this.goOn && !this.hasError()&&this.value) {
 		this.value = this.params[this.key] = new Buffer(this.value).toString('base64');
 	}
 	return this;
@@ -677,7 +677,7 @@ Validator.prototype.clone = function(key , value) {
 // for json path value
 
 Validator.prototype.check = function(fn ,tip, scope) {
-	if(!this.hasError()&&!fn.call(scope||this,this.value,this.key,this.context)) {
+	if(this.goOn && !this.hasError()&&!fn.call(scope||this,this.value,this.key,this.context)) {
 		this.addError(tip||this.key+" check failed.")
 	}
 	return this;

@@ -10,6 +10,8 @@ describe('koa-validate' , function(){
 		var app = appFactory.create(1);
 		app.router.post('/validate',function*(){
 			this.checkBody('optional').optional().len(3,20);
+			this.checkBody('optional').optional().len(1, 100).trim().toInt()
+			this.checkBody('optionalInt').optional().len(1, 100).trim().toInt()
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('empty').empty();
 			this.checkBody('notBlank').notBlank();
@@ -90,6 +92,7 @@ describe('koa-validate' , function(){
 
 		req.post('/validate')
 		.send({
+			optionalInt:"100",
 			name:"jim",
 			empty:"",
 			notBlank:"\t h\n",
