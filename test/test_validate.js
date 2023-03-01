@@ -54,7 +54,7 @@ describe('koa-validate' , function(){
 			this.checkBody('low').isLowercase();
 			this.checkBody('up').isUppercase();
 			this.checkBody('div').isDivisibleBy(3);
-			this.checkBody('n').isNull();
+			this.checkBody('n').isEmpty();
 			this.checkBody('len').isLength(1,4);
 			this.checkBody('byteLenght').isByteLength(4,6);
 			this.checkBody('uuid').isUUID();
@@ -190,7 +190,7 @@ describe('koa-validate' , function(){
 			this.checkBody('low').isLowercase();
 			this.checkBody('up').isUppercase();
 			this.checkBody('div').isDivisibleBy(3);
-			this.checkBody('n').isNull();
+			this.checkBody('n').isEmpty();
 			this.checkBody('len').isLength(3,4);
 			this.checkBody('len1').isLength(3,4);
 			this.checkBody('byteLength').isByteLength(4,6);

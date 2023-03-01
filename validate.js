@@ -339,9 +339,9 @@ Validator.prototype.isDivisibleBy = function(n, tip) {
 	}
 	return this;
 };
-Validator.prototype.isNull = function(tip) {
-	if (this.goOn && (!isString(this.value) ||!v.isNull(this.value))) {
-		this.addError(tip || this.key + " is not null.");
+Validator.prototype.isEmpty = function(tip) {
+	if (this.goOn && (!isString(this.value) ||!v.isEmpty(this.value))) {
+		this.addError(tip || this.key + " is not empty.");
 	}
 	return this;
 };

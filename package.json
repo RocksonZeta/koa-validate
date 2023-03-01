@@ -24,11 +24,10 @@
   "license": "MIT",
   "dependencies": {
     "jsonpath-plus": "^7.2.0",
-    "validator": "^5.2.0"
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "coveralls": "*",
-    "istanbul-harmony": "0",
     "koa": "*",
     "koa-body": "^4",
     "koa-router": "^4",
