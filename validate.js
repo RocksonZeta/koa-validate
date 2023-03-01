@@ -1,22 +1,35 @@
 'use strict';
-var util = require('util'),
-fs = require('fs'),
-jpath = require('json-path'),
-path = require('path');
+const util = require('util');
+const fs = require('fs');
+const path = require('path');
+const { JSONPath } = require('jsonpath-plus');
 
-
-function getValue(obj, key, transFn){
-	if((0 == key.indexOf('/') || 0 == key.indexOf('#/')) && transFn) {
-		return jpath.resolve(obj, key)
-	}
-	return obj[key]
+function getValue(obj, key, transFn) {
+  if ((key.startsWith('$') || key.startsWith('#/')) && transFn) {
+    let result = JSONPath({
+      path: key,
+      json: obj,
+      wrap: false,
+      resultType: 'value'
+    });
+		if (!Array.isArray(result)) result = [result];
+		return result;
+  }
+  return obj[key]
 }
 
 function hasKey(obj, key, transFn) {
-	if((0 == key.indexOf('/') || 0 == key.indexOf('#/')) && transFn) {
-		return (jpath.resolve(obj, key).length > 0) ? true : false
-	}
-	return key in obj
+  if ((key.startsWith('/') || key.startsWith('#/')) && transFn) {
+    let result = JSONPath({
+      path: key,
+      json: obj,
+      wrap: false,
+      resultType: 'all'
+    });
+		if (!Array.isArray(result)) result = [result];
+		return result;
+  }
+  return key in obj;
 }
 
 module.exports = function(app) {
@@ -42,15 +55,15 @@ module.exports = function(app) {
 		return new Validator(this, key,getValue(body,key,transFn), hasKey(body, key, transFn), body);
 	};
 	app.context.checkFile = function(key , deleteOnCheckFailed) {
-		if('undefined' == typeof this.request.body || 'undefined' == typeof this.request.body.files ) {
+		if('undefined' == typeof this.request.files ) {
 			if(!this.errors){
 				this.errors = ['no file to check'];
 			}
 			return new Validator(this, null, null,false, null,false );
 		}
 		deleteOnCheckFailed = ('undefined' == typeof deleteOnCheckFailed?true :false);
-		var files = this.request.body.files;
-		return new FileValidator(this, key ,files&&files[key],!!(files&&files[key]) , this.request.body , deleteOnCheckFailed);
+		var files = this.request.files;
+		return new FileValidator(this, key ,files&&files[key],!!(files&&files[key]) , this.request.files , deleteOnCheckFailed);
 	};
 	// return function* (next) {
 	// 	yield next;
@@ -123,7 +136,7 @@ Validator.prototype.notBlank = function(tip) {
 };
 Validator.prototype.exist = function(tip) {
 	if (this.goOn && !this.exists) {
-		 this.addError(tip || this.key +" should exists!");
+		 this.addError(tip || this.key +" should exist!");
 	}
 	return this;
 };

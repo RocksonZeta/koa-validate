@@ -1,9 +1,9 @@
 'use strict';
 
-var koa = require('koa');
+const koa = require('koa');
 
 exports.create = function(type) {
-	var app = koa();
+	var app =	 new koa();
 	require('../validate.js')(app);
 	var router = require('koa-router')();
 	if(1 == type) {
@@ -15,7 +15,7 @@ exports.create = function(type) {
 		try {
 			yield next;
 		}catch(err) {
-			console.log(err.stack)
+			console.error(err.stack)
 			this.app.emit('error', err, this);
 		}
 	})

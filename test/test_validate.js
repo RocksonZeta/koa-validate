@@ -88,7 +88,7 @@ describe('koa-validate' , function(){
 			}
 			this.body= 'ok';
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 
 		req.post('/validate')
 		.send({
@@ -224,7 +224,7 @@ describe('koa-validate' , function(){
 			}
 			this.body= 'only '+this.errors.length+' errors';
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 
 		req.post('/validate')
 		.send({
@@ -242,7 +242,7 @@ describe('koa-validate' , function(){
 			eq:"neq",
 			neq:'eq',
 			number4:'4',
-			contains:"hello" , 
+			contains:"hello" ,
 			notContains:"h f",
 			url:"google",
 			ip:'192.168.',
@@ -285,9 +285,9 @@ describe('koa-validate' , function(){
 		.expect(200)
 		.expect('ok' ,done);
 	});
-	
+
 	it('there validate query should be to okay' , function(done){
-		var app = appFactory.create();
+		const app = appFactory.create();
 		app.router.get('/query',function*(){
 			this.checkQuery('name').notEmpty();
 			this.checkQuery('password').len(3,20);
@@ -297,7 +297,7 @@ describe('koa-validate' , function(){
 			}
 			this.body = 'ok';
 		});
-		request(app.listen())
+		request(app.callback())
 		.get('/query')
 		.query({
 			name:'jim',
@@ -315,7 +315,7 @@ describe('koa-validate' , function(){
 			}
 			this.body = 'ok';
 		});
-		request(app.listen())
+		request(app.callback())
 		.get('/123')
 		.expect(200)
 		.expect('ok' , done);
@@ -358,7 +358,6 @@ describe('koa-validate' , function(){
 			this.checkBody('hash').clone('sha1').sha1();
 			this.checkBody('hash').clone('num1' ,1);
 			this.checkBody('json').toJson();
-			//console.log(this.request.body)
 			if(this.errors){
 				this.body = this.errors;
 				 return;
@@ -447,7 +446,7 @@ describe('koa-validate' , function(){
 			}
 			this.body = 'ok';
 		});
-		request(app.listen())
+		request(app.callback())
 		.post('/sanitizers')
 		.send({
 			int_:'20',

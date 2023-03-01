@@ -5,7 +5,7 @@ request = require('supertest'),
 appFactory = require('./appFactory.js');
 require('should');
 
-describe('koa-validate' , function(){
+describe('koa-validate nobody' , function(){
 	it("nobody to check" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/nobody',function*(){
@@ -16,7 +16,7 @@ describe('koa-validate' , function(){
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/nobody')
 		.send()
 		.expect(500 , done);

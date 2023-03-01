@@ -8,7 +8,7 @@ var data = {
         title: "Sayings of the Century",
         price: 8.95,
         publishDate:"2015-01-01",
-        disabled:false
+        disabled: false
       },
       { category: "fiction",
         author: "Evelyn Waugh",
@@ -42,71 +42,75 @@ request = require('supertest'),
 appFactory = require('./appFactory.js');
 require('should');
 
-describe('koa-validate' , function(){
+describe('koa-validate json path' , function(){
 	it("json path basic" , function(done){
-		var app = appFactory.create(1);
+		const app = appFactory.create(1);
 		app.router.post('/json',function*(){
-			this.checkBody('/', true).notEmpty();
-      this.checkBody('/store/bicycle/color', true).exist()
-      this.checkBody('/store/book[0]/price', true).get(0).eq(8.95);
-      this.checkBody('/store/book[0]/price', true).get(0).isFloat().eq(8.95);
-			this.checkBody('/store/book[0]/disabled', true).first().notEmpty().toBoolean()
-			this.checkBody('#/store/book[0]/category', true).first().trim().eq('reference');
-			this.checkBody('/store/book[*]/price', true).filter(function(v,k,o){
-				return v>10
-			}).first().gt(10)
+      this.checkBody('$.store.bicycle.color', true).notEmpty();
+      this.checkBody('$.store.book[0].price', true).get(0).eq(8.95);
+      this.checkBody('$.store.book[0].price', true).get(0).isFloat().eq(8.95);
+      this.checkBody('$.store.book[0].disabled', true).first().notEmpty().toBoolean();
+      this.checkBody('$.store.book[0].category', true).first().trim().eq('reference');
+      this.checkBody('$.store.book[*].price', true).filter(function(v,k,o){
+        return v > 10;
+      }).first().gt(10);
+
 			if(this.errors) {
-        // console.log(this.errors)
 				this.status=500;
 			}else{
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/json')
 		.send(data)
-		.expect(200 , done);
+		.expect(200 , cb);
+    function cb(stuff){
+      console.log(stuff)
+       done()
+    }
 	});
 
 });
 
 describe('koa-validate type' , function(){
   it("type check" , function(done){
-    var app = appFactory.create(1);
+    const app = appFactory.create(1);
     app.router.post('/json',function*(){
-      this.checkBody('/', true).notEmpty();
-      this.checkBody('/store/book[0]/price', true).get(0).type('number').type("primitive")
-      this.checkBody('/store/book[0]/price', true).get(0).type('hello') // should warn
-      this.checkBody('#/store/book[0]/category', true).first().type('string');
-      this.checkBody('/store/book[*]/price', true).type('array')
-      this.checkBody('/store/book[0]/publishDate', true).get(0).toDate().type('date').type('object')
+
+      this.checkBody('$.', true).notEmpty();
+      this.checkBody('$.store.book[0].price', true).get(0).type('number').type('primitive');
+      this.checkBody('$.store.book[0].price', true).get(0).type('hello'); // should warn
+      this.checkBody('$.store.book[0].category', true).first().type('string');
+      this.checkBody('$.store.book[*].price', true).type('array');
+      this.checkBody('$.store.book[0].publishDate', true).get(0).toDate().type('date').type('object');
+
       if(this.errors) {
         this.status=500;
       }else{
         this.status=200;
       }
     });
-    var req = request(app.listen());
+    var req = request(app.callback());
     req.post('/json')
     .send(data)
     .expect(200 , done);
   });
 it("type fail check" , function(done){
-    var app = appFactory.create(1);
+    const app = appFactory.create(1);
     app.router.post('/json',function*(){
-      this.checkBody('/', true).type('null');
-      this.checkBody('/store/book[0]/price', true).get(0).type('string');
-      this.checkBody('#/store/book[0]/category', true).first().type('null');
-      this.checkBody('/store/book[*]/price', true).type('nullorundefined')
-      this.checkBody('/store/book[0]/publishDate', true).first().toDate().type('array')
-      // console.log(this.errors)
+      this.checkBody('$.', true).type('null');
+      this.checkBody('$.store.book[0].price', true).get(0).type('string');
+      this.checkBody('$.store.book[0].category', true).first().type('null');
+      this.checkBody('$.store.book[*].price', true).type('nullorundefined');
+      this.checkBody('$.store.book[0].publishDate', true).first().toDate().type('array');
       if(this.errors && 5==this.errors.length) {
         this.status=200;
       }else{
         this.status=500;
       }
     });
-    var req = request(app.listen());
+    const req = request(app.callback());
     req.post('/json')
     .send(data)
     .expect(200 , done);

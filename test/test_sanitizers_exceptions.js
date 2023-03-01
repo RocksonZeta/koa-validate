@@ -7,7 +7,7 @@ require('should');
 
 
 
-describe('koa-validate' , function(){
+describe('koa-validate exception handling' , function(){
 	it("bad uri decodeURIComponent should not to be ok" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/decodeURIComponent',function*(){
@@ -18,7 +18,7 @@ describe('koa-validate' , function(){
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/decodeURIComponent')
 		.send({uri:"%"})
 		.expect(500 , done);
@@ -33,7 +33,7 @@ describe('koa-validate' , function(){
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/decodeURI')
 		.send({uri:"%"})
 		.expect(500 , done);
@@ -48,7 +48,7 @@ describe('koa-validate' , function(){
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/decodeBase64')
 		.send({base64:"%%"})
 		.expect(500 , done);
@@ -63,7 +63,7 @@ describe('koa-validate' , function(){
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/toInt')
 		.send({v:"gg"})
 		.expect(500 , done);
@@ -72,14 +72,14 @@ describe('koa-validate' , function(){
 	it("0 len should be ok" , function(done){
 		var app = appFactory.create(1);
 		app.router.post('/len',function*(){
-			this.checkBody('v').len(0,1);
+			this.checkBody('v').len(0,1, 'problem here');
 			if(this.errors) {
 				this.status=500;
 			}else{
 				this.status=200;
 			}
 		});
-		var req = request(app.listen());
+		var req = request(app.callback());
 		req.post('/len')
 		.send({v:""})
 		.expect(200 , done);

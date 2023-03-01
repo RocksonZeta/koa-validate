@@ -7,7 +7,7 @@ require('should');
 
 
 
-describe('koa-validate' , function(){
+describe('koa-validate file uploads' , function(){
 	// this.timeout(100000);
 	it("file check ok" , function(done){
 		var app = appFactory.create(1);
@@ -26,8 +26,8 @@ describe('koa-validate' , function(){
 				return __dirname+"/temp";
 			})).delete();
 			require('fs').unlinkSync(__dirname+'/temp');
-			require('fs').unlinkSync(__dirname+'/'+require('path').basename(this.request.body.files.file.path));
-			require('fs').unlinkSync(__dirname+'/tempdir/'+require('path').basename(this.request.body.files.file.path));
+			require('fs').unlinkSync(__dirname+'/'+require('path').basename(this.request.files.file.path));
+			require('fs').unlinkSync(__dirname+'/tempdir/'+require('path').basename(this.request.files.file.path));
 			// require('fs').unlinkSync(__dirname+'/tempdir');
 			if(this.errors){
 				this.body = this.errors;
@@ -36,7 +36,7 @@ describe('koa-validate' , function(){
 			this.body = 'ok';
 		});
 
-		request(app.listen())
+		request(app.callback())
 		.post('/upload')
 		.attach('file',__dirname+"/test_checkFile.js")
 		.attach('file1',__dirname+"/test_checkFile.js")
@@ -70,7 +70,7 @@ describe('koa-validate' , function(){
 
 		});
 
-		request(app.listen())
+		request(app.callback())
 		.post('/upload')
 		.attach('file',__dirname+"/test_checkFile.js")
 		.attach('file0',__dirname+"/test_checkFile.js")
