@@ -81,7 +81,7 @@ describe('koa-validate' , function(){
 			this.checkBody('fqdn').isFQDN();
 			if(this.errors){
 				this.body = this.errors;
-				 return;
+				return;
 			}
 			if(8 !== this.request.body.age){
 				this.body= 'failed';
@@ -155,7 +155,7 @@ describe('koa-validate' , function(){
 
 	it("these validates fail tests should be to ok" , function(done){
 		var app = appFactory.create();
-		app.router.post('/validate',function*(){
+		app.router.post('/validate',function*(ctx){
 			this.checkBody('name').notEmpty().len(3,20);
 			this.checkBody('notEmpty').notEmpty();
 			this.checkBody('blank').notBlank();
@@ -168,7 +168,7 @@ describe('koa-validate' , function(){
 			this.checkBody('float_').isFloat();
 			this.checkBody('in').in([1,2]);
 			this.checkBody('eq').eq("eq");
-			this.checkBody('neq').neq("eq");
+			this.checkBody('notEqualTest').neq("equal");
 			this.checkBody('number4').gt(5);
 			this.checkBody('number4').lt(3);
 			this.checkBody('number4').ge(5);
@@ -218,7 +218,6 @@ describe('koa-validate' , function(){
 			this.checkBody('fqdn').isFQDN();
 			this.checkBody('fqdn1').isFQDN();
 			if(this.errors.length === 61){
-				this.body = this.errors;
 				this.body = 'ok';
 				return ;
 			}
@@ -239,8 +238,8 @@ describe('koa-validate' , function(){
 			integer2:"100",
 			float_:'a1.23',
 			in:'fd',
-			eq:"neq",
-			neq:'eq',
+			eq:"this does not equal eq",
+			notEqualTest:'equal',
 			number4:'4',
 			contains:"hello" ,
 			notContains:"h f",

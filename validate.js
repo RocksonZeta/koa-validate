@@ -219,13 +219,14 @@ Validator.prototype.in = function(arr, tip) {
 Validator.prototype.isIn = Validator.prototype.in;
 Validator.prototype.eq = function(l, tip) {
 	if (this.goOn && this.value != l) {
-		this.addError(tip || this.key + " is must equal " + l + ".");
+		this.addError(tip || this.key + " must equal " + l + ".");
 	}
 	return this;
 };
 Validator.prototype.neq = function(l, tip) {
 	if (this.goOn && this.value == l) {
-		this.addError(tip || this.key + " is must not equal " + l + ".");
+		console.log('adding the error!')
+		this.addError(tip || this.key + " must not equal " + l + ".");
 	}
 	return this;
 };
@@ -255,13 +256,13 @@ Validator.prototype.le = function(l, tip) {
 };
 Validator.prototype.contains = function(s, tip) {
 	if (this.goOn && (!isString(this.value) ||!v.contains(this.value,s))) {
-		this.addError(tip || this.key + " is must contain " + s + ".");
+		this.addError(tip || this.key + " must contain " + s + ".");
 	}
 	return this;
 };
 Validator.prototype.notContains = function(s, tip) {
 	if (this.goOn && (!isString(this.value) ||v.contains(this.value,s))) {
-		this.addError(tip || this.key + " is must not contain " + s + ".");
+		this.addError(tip || this.key + " must not contain " + s + ".");
 	}
 	return this;
 };

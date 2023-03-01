@@ -41,7 +41,7 @@ describe('koa-validate file uploads' , function(){
 		.attach('file',__dirname+"/test_checkFile.js")
 		.attach('file1',__dirname+"/test_checkFile.js")
 		// .attach('file2',__dirname+"/test_checkFile.js")
-		.send({type:"js"})
+		.field({type:"js"})
 		.expect(200)
 		.expect('ok' , done);
 	});
@@ -81,7 +81,7 @@ describe('koa-validate file uploads' , function(){
 		.attach('file5',__dirname+"/test_checkFile.js")
 		.attach('file5',__dirname+"/test_checkFile.js")
 		.attach('file6',__dirname+"/test_checkFile.js")
-		.send({type:"js"})
+		.field({type:"js"})
 		.expect(200)
 		.expect('ok' , done);
 	});

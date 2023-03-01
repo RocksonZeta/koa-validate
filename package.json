@@ -35,7 +35,7 @@
     "mocha": "^10",
     "mocha-lcov-reporter": "*",
     "should": "*",
-    "supertest": "^0.13.0"
+    "supertest": "^6.3.3"
   },
   "engines": {
     "node": ">= 0.11.9"
